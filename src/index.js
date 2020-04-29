@@ -1,6 +1,6 @@
 import React from "react"
 import ReactDOM from "react-dom"
-import Kennel from "./components/Kennel"
+import Takeaway from "./components/Takeaways"
 import "bootstrap/dist/css/bootstrap.min.css"
 
-ReactDOM.render(<Takeaways />, document.getElementById("root"))
+ReactDOM.render(<Takeaway />, document.getElementById("root"))
