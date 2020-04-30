@@ -8,6 +8,7 @@ export const TakeawayProvider = (props) => {
 
     const [takeaways, setTakeaways] = useState([])
 
+
     const getTakeaways = () => {
         return fetch("http://localhost:8088/takeaways")
             .then(res => res.json())
