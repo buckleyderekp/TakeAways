@@ -1,0 +1,45 @@
+import React, { useContext, useState } from "react"
+import { TakeawayContext } from "./TakeawayProvider"
+import { Button, Modal, ModalBody, ModalHeader } from "reactstrap"
+import { Takeaway } from "./Takeaway"
+import { CategoryContext } from "../categories/CategoryProvider"
+import { SourceContext } from "../sources/SourceProvider"
+import { TypeContext } from "../type/TypeProvider"
+
+export const TakeawayList = () => {
+    const { takeaways } = useContext(TakeawayContext)
+    const { categories } = useContext(CategoryContext)
+    const { sources } = useContext(SourceContext)
+    const { types } = useContext(TypeContext)
+    const activeUser = parseInt(localStorage.getItem("takeaways_user"))
+    const filteredTakeaways = takeaways.filter(takeaway => takeaway.userId === activeUser)
+    const [modal, setModal] = useState(false)
+    const toggle = () => setModal(!modal)
+
+    return (
+        <>
+            <h2>Takeaways</h2>
+
+            <Button onClick={() => {
+                // check if the user is authenticated
+                const userId = localStorage.getItem("kennel_customer")
+                if(userId){
+                    // If the user is authenticated, show the animal form
+                    toggle()
+                }
+            }}>Add New</Button>
+            <ul className="takeaways">
+                {
+                    filteredTakeaways.map(takeaway => {
+
+                        const matchingCategory = categories.find(category => takeaway.categoryId === category.id) || {}
+                        const matchingSource = sources.find(source => takeaway.sourceId === source.id) || {}
+                        const matchingType = types.find(type => type.id === matchingSource.id) || {} 
+
+                        return <Takeaway key={takeaway.id} takeaway={takeaway} category={matchingCategory} source={matchingSource} type={matchingType} />
+                    })
+                }
+            </ul>
+        </>
+    )
+}
