@@ -44,36 +44,26 @@ export const AddTakeAwayForm = () => {
         console.log(currentSource)
     }
 
-    // const addNewCategoryToAPI = () => {
-    //     if (categoryInput) {
-
-    //         const newCategoryObject = {
-    //             category: newCategory.current.value
-    //         }
-
-    //         addCategory(newCategoryObject).then((obj) => {
-    //             setCurrentCategory(obj)
-    //             console.log(obj)
-    //         })
-    //     }
-    //     else {
-    //         setCurrentCategory(category.current.value)
-    //     }
-    //     console.log(currentCategory)
-    // }
-
     const constructNewTakeAway = () => {
+        let currentActiveCategory = 0
+
+        if (categoryInput) {
+            currentActiveCategory = currentSource.id
+        }
+        else {
+            currentActiveCategory = source
+        }
         const newTakeawayObject = {
             userId: userId,
             sourceId: currentSource.id,
-            categoryId: category.current.value,
+            categoryId: currentActiveCategory,
             takeaway: takeaway.current.value
         }
         console.log(newTakeawayObject)
     }
 
     const checkSourceInput = () => {
-        if (sourceInput === true) {
+        if (sourceInput) {
             return (<div className="form-group">
                 <label htmlFor="newSource">New Source: </label>
                 <input
@@ -86,6 +76,21 @@ export const AddTakeAwayForm = () => {
                     placeholder="New Source"
                 />
             </div>
+                                <label htmlFor="category">Choose a Type  </label>
+                                <select
+                                    defaultValue=""
+                                    name="category"
+                                    ref={type}
+                                    id="takeawayCategory"
+                                    className="form-control"
+                                >
+                                    <option value="0">- Select Type -</option>
+                                    {types.map(e => (
+                                        <option key={e.id} value={e.id}>
+                                            {e.type}
+                                        </option>
+                                    ))}
+                                </select>
             )
         }
     }
@@ -163,21 +168,7 @@ export const AddTakeAwayForm = () => {
                         Add New Category
             </button>
                     {checkCategoryInput()}
-                    <label htmlFor="category">Choose a Type  </label>
-                    <select
-                        defaultValue=""
-                        name="category"
-                        ref={type}
-                        id="takeawayCategory"
-                        className="form-control"
-                    >
-                        <option value="0">- Select Type -</option>
-                        {types.map(e => (
-                            <option key={e.id} value={e.id}>
-                                {e.type}
-                            </option>
-                        ))}
-                    </select>
+
                 </div>
                 <div className="form-group">
                     <label htmlFor="takeaway">Takeaway: </label>
