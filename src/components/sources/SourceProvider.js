@@ -4,9 +4,12 @@ import React, { useState, useEffect } from "react"
 export const SourceContext = React.createContext()
 
 
+
 export const SourceProvider = (props) => {
 
     const [sources, setSources] = useState([])
+    const [currentSource, setCurrentSource] = useState({})
+    
 
     const getSources = () => {
         return fetch("http://localhost:8088/sources")
@@ -22,7 +25,12 @@ export const SourceProvider = (props) => {
             },
             body: JSON.stringify(source)
         })
-            .then(getSources)
+        .then(res => res.json())
+        .then((res) => {
+            const createdSource = res
+            getSources()
+            return createdSource
+        })
     }
 
     const deleteSource = sourceId => {
@@ -48,13 +56,16 @@ export const SourceProvider = (props) => {
         getSources()
     }, [])
 
+
     return (
         <SourceContext.Provider value={
             {
                 sources,
                 addSource,
                 deleteSource,
-                updateSource
+                updateSource,
+                currentSource,
+                setCurrentSource
             }
         }>
             {props.children}

@@ -5,6 +5,7 @@ import { Takeaway } from "./Takeaway"
 import { CategoryContext } from "../categories/CategoryProvider"
 import { SourceContext } from "../sources/SourceProvider"
 import { TypeContext } from "../type/TypeProvider"
+import { AddTakeAwayForm } from "./addTakeAwayForm"
 
 export const TakeawayList = () => {
     const { takeaways } = useContext(TakeawayContext)
@@ -22,8 +23,8 @@ export const TakeawayList = () => {
 
             <Button onClick={() => {
                 // check if the user is authenticated
-                const userId = localStorage.getItem("kennel_customer")
-                if(userId){
+                const userId = localStorage.getItem("takeaways_user")
+                if (userId) {
                     // If the user is authenticated, show the animal form
                     toggle()
                 }
@@ -34,12 +35,21 @@ export const TakeawayList = () => {
 
                         const matchingCategory = categories.find(category => takeaway.categoryId === category.id) || {}
                         const matchingSource = sources.find(source => takeaway.sourceId === source.id) || {}
-                        const matchingType = types.find(type => type.id === matchingSource.id) || {} 
+                        const matchingType = types.find(type => type.id === matchingSource.id) || {}
 
                         return <Takeaway key={takeaway.id} takeaway={takeaway} category={matchingCategory} source={matchingSource} type={matchingType} />
                     })
                 }
             </ul>
+            <Modal isOpen={modal} toggle={toggle}>
+                <ModalHeader toggle={toggle}>
+                    Add New Takeaway
+                </ModalHeader>
+                <ModalBody>
+                    <AddTakeAwayForm toggler={toggle} />
+                </ModalBody>
+            </Modal>
         </>
+
     )
 }
