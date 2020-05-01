@@ -9,6 +9,7 @@ export const SourceProvider = (props) => {
 
     const [sources, setSources] = useState([])
     const [currentSource, setCurrentSource] = useState({})
+    
 
     const getSources = () => {
         return fetch("http://localhost:8088/sources")
@@ -54,6 +55,7 @@ export const SourceProvider = (props) => {
     useEffect(() => {
         getSources()
     }, [])
+
 
     return (
         <SourceContext.Provider value={

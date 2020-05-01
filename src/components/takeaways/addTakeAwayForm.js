@@ -1,20 +1,24 @@
-import React, { useContext, useRef, useState } from "react"
+import React, { useContext, useRef, useState, useEffect } from "react"
 import { TypeContext } from "../type/TypeProvider"
 import { SourceContext } from "../sources/SourceProvider"
 import { TakeawayContext } from "./TakeawayProvider"
 import { CategoryContext } from "../categories/CategoryProvider"
+import { Input, Button } from "reactstrap"
 
 
 
 
-export const AddTakeAwayForm = () => {
+export const AddTakeAwayForm = (props) => {
 
-    const { sources, addSource, currentSource, setCurrentSource } = useContext(SourceContext)
-    const { categories, addCategory, currentCategory, setCurrentCategory } = useContext(CategoryContext)
+    const { sources, addSource, currentSource, setCurrentSource, getSources } = useContext(SourceContext)
+    const { categories, addCategory, currentCategory, setCurrentCategory, getCategories } = useContext(CategoryContext)
     const { addTakeaway } = useContext(TakeawayContext)
     const { types } = useContext(TypeContext)
     const [sourceInput, setSourceInput] = useState(false)
     const [categoryInput, setCategoryInput] = useState(false)
+    const [sourceDropdownSelection, setSourceDropdownSelection] = useState(0)
+    const [categoryDropdownSelection, setCategoryDropdownSelection] = useState(0)
+
 
     const takeaway = useRef()
     const category = useRef()
@@ -22,44 +26,65 @@ export const AddTakeAwayForm = () => {
     const source = useRef()
     const newSource = useRef()
     const newCategory = useRef()
-    const userId = localStorage.getItem("takeaways_user")
+    const userId = parseInt(localStorage.getItem("takeaways_user"))
+
+    useEffect(() => {
+        putNewSourceInDropdown()
+    }, [sources])
+
+    const putNewSourceInDropdown = () => {
+        source.current.value = sourceDropdownSelection
+    }
 
     const addNewSourceToAPI = () => {
         if (sourceInput) {
 
             const newSourceObject = {
                 source: newSource.current.value,
-                typeId: type.current.value
+                typeId: parseInt(type.current.value)
             }
 
-            addSource(newSourceObject).then((res) => {
-                setCurrentSource(res)
-                console.log(res)
-            })
+            addSource(newSourceObject)
+                .then((res) => {
+                    setSourceDropdownSelection(res.id)
+
+                })
+
         }
-        else {
-            const currentSource = sources.find(source => source.id === source.current.value) || {}
-            setCurrentSource(currentSource)
+    }
+    useEffect(() => {
+        putNewCategoryInDropdown()
+    }, [categories])
+
+    const putNewCategoryInDropdown = () => {
+        category.current.value = categoryDropdownSelection
+    }
+
+    const addNewCategoryToAPI = () => {
+        if (categoryInput) {
+
+            const newCategoryObject = {
+                category: newCategory.current.value
+            }
+
+            addCategory(newCategoryObject)
+                .then((res) => {
+                    setCategoryDropdownSelection(res.id)
+
+                })
+
         }
-        console.log(currentSource)
     }
 
     const constructNewTakeAway = () => {
-        let currentActiveCategory = 0
 
-        if (categoryInput) {
-            currentActiveCategory = currentSource.id
-        }
-        else {
-            currentActiveCategory = source
-        }
         const newTakeawayObject = {
             userId: userId,
-            sourceId: currentSource.id,
-            categoryId: currentActiveCategory,
+            sourceId: parseInt(source.current.value),
+            categoryId: parseInt(category.current.value),
             takeaway: takeaway.current.value
         }
-        console.log(newTakeawayObject)
+        addTakeaway(newTakeawayObject).then(props.toggler)
     }
 
     const checkSourceInput = () => {
@@ -75,22 +100,34 @@ export const AddTakeAwayForm = () => {
                     className="form-control"
                     placeholder="New Source"
                 />
+                <label htmlFor="category">Choose a Type  </label>
+                <Input
+                    type="select"
+                    defaultValue=""
+                    name="type"
+                    ref={type}
+                    id="takeawayCategory"
+                    className="form-control"
+                >
+                    <option value="0">- Select Type -</option>
+                    {types.map(e => (
+                        <option key={e.id} value={e.id}>
+                            {e.type}
+                        </option>
+                    ))}
+                </Input>
+                <Button type="submit"
+                    onClick={
+                        evt => {
+                            evt.preventDefault()
+                            addNewSourceToAPI()
+                            setSourceInput(false)
+                        }
+                    }
+                    className="btn btn-primary">
+                    Save Source
+            </Button>
             </div>
-                                <label htmlFor="category">Choose a Type  </label>
-                                <select
-                                    defaultValue=""
-                                    name="category"
-                                    ref={type}
-                                    id="takeawayCategory"
-                                    className="form-control"
-                                >
-                                    <option value="0">- Select Type -</option>
-                                    {types.map(e => (
-                                        <option key={e.id} value={e.id}>
-                                            {e.type}
-                                        </option>
-                                    ))}
-                                </select>
             )
         }
     }
@@ -107,6 +144,17 @@ export const AddTakeAwayForm = () => {
                     className="form-control"
                     placeholder="New Category"
                 />
+                <Button type="submit"
+                    onClick={
+                        evt => {
+                            evt.preventDefault()
+                            addNewCategoryToAPI()
+                            setCategoryInput(false)
+                        }
+                    }
+                    className="btn btn-primary">
+                    Save Category
+            </Button>
             </div>
             )
         }
@@ -118,7 +166,6 @@ export const AddTakeAwayForm = () => {
                 <div className="form-group">
                     <label htmlFor="source">Choose an Existing Source  </label>
                     <select
-                        defaultValue=""
                         name="source"
                         ref={source}
                         id="takeawaySource"
@@ -131,7 +178,7 @@ export const AddTakeAwayForm = () => {
                             </option>
                         ))}
                     </select>
-                    <button
+                    <Button
                         onClick={
                             evt => {
                                 evt.preventDefault()
@@ -140,63 +187,64 @@ export const AddTakeAwayForm = () => {
                         }
                         className="btn btn-primary">
                         Add New Source
-            </button>
+                        </Button>
+
                     {checkSourceInput()}
-                    <label htmlFor="category">Choose an Existing Category</label>
-                    <select
-                        defaultValue=""
-                        name="category"
-                        ref={category}
-                        id="takeawayCategory"
-                        className="form-control"
-                    >
-                        <option value="0">- Select a Category -</option>
-                        {categories.map(e => (
-                            <option key={e.id} value={e.id}>
-                                {e.category}
-                            </option>
-                        ))}
-                    </select>
-                    <button
-                        onClick={
-                            evt => {
-                                evt.preventDefault()
-                                setCategoryInput(true)
+                    <div className="form-group">
+
+                        <label htmlFor="category">Choose an Existing Category</label>
+                        <select
+                            defaultValue=""
+                            name="category"
+                            ref={category}
+                            id="takeawayCategory"
+                            className="form-control"
+                        >
+                            <option value="0">- Select a Category -</option>
+                            {categories.map(e => (
+                                <option key={e.id} value={e.id}>
+                                    {e.category}
+                                </option>
+                            ))}
+                        </select>
+                        <Button
+                            onClick={
+                                evt => {
+                                    evt.preventDefault()
+                                    setCategoryInput(true)
+                                }
                             }
-                        }
-                        className="btn btn-primary">
-                        Add New Category
-            </button>
+                            className="btn btn-primary">
+                            Add New Category
+            </Button>
+                    </div>
                     {checkCategoryInput()}
 
                 </div>
                 <div className="form-group">
                     <label htmlFor="takeaway">Takeaway: </label>
                     <input
-                        type="text"
+                        type="textarea"
                         id="takeaway"
                         ref={takeaway}
                         required
                         autoFocus
                         className="form-control"
-                        placeholder="I learned..."
-                    />
+                        placeholder="I learned..."></input>
+                    
                 </div>
             </fieldset>
 
-            <button type="submit"
+            <Button type="submit"
                 onClick={
                     evt => {
                         evt.preventDefault()
-                        addNewSourceToAPI()
-                        // addNewCategoryToAPI()
                         constructNewTakeAway()
-                        console.log(currentCategory, currentSource)
                     }
                 }
                 className="btn btn-primary">
                 Save
-            </button>
+            </Button>
         </form>
     )
 }
