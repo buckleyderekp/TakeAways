@@ -4,7 +4,7 @@ import { TakeawayList } from "./takeaways/TakeawayList"
 import { CategoryProvider } from "./categories/CategoryProvider"
 import { SourceProvider } from "./sources/SourceProvider"
 import { TypeProvider } from "./type/TypeProvider"
-
+import { TakeawaysCategoryProvider } from "./categories/TakeawaysCategoriesProvider"
 
 export const Dashboard = () => {
     return (
@@ -12,7 +12,9 @@ export const Dashboard = () => {
             <CategoryProvider>
                 <SourceProvider>
                     <TypeProvider>
-                        <TakeawayList />
+                        <TakeawaysCategoryProvider>
+                            <TakeawayList />
+                        </TakeawaysCategoryProvider>
                     </TypeProvider>
                 </SourceProvider>
             </CategoryProvider>

@@ -4,6 +4,7 @@ import { SourceContext } from "../sources/SourceProvider"
 import { TakeawayContext } from "./TakeawayProvider"
 import { CategoryContext } from "../categories/CategoryProvider"
 import { Input, Button } from "reactstrap"
+import "./addTakeawayForm.css"
 
 
 
@@ -16,9 +17,10 @@ export const AddTakeAwayForm = (props) => {
     const { types } = useContext(TypeContext)
     const [sourceInput, setSourceInput] = useState(false)
     const [categoryInput, setCategoryInput] = useState(false)
+    const [categorySelected, setCategorySelected] = useState(false)
     const [sourceDropdownSelection, setSourceDropdownSelection] = useState(0)
     const [categoryDropdownSelection, setCategoryDropdownSelection] = useState(0)
-
+    let currentCategoriesForThisTakeaway = []
 
     const takeaway = useRef()
     const category = useRef()
@@ -34,6 +36,23 @@ export const AddTakeAwayForm = (props) => {
 
     const putNewSourceInDropdown = () => {
         source.current.value = sourceDropdownSelection
+    }
+
+    // const displayCategories = () => {
+
+    //     if (categorySelected){
+         
+    //      }).join(", ")
+    //     }
+    //     else {
+    //         return ("")
+    //     }
+    // }
+
+
+        const putCategoryintoCategoryArray = () => {
+            currentCategoriesForThisTakeaway.push(parseInt(category.current.value))
+            console.log(currentCategoriesForThisTakeaway)
     }
 
     const addNewSourceToAPI = () => {
@@ -193,6 +212,11 @@ export const AddTakeAwayForm = (props) => {
                     <div className="form-group">
 
                         <label htmlFor="category">Choose an Existing Category</label>
+                        <div className="currentSelectedCategories">
+                            {
+                                currentCategoriesForThisTakeaway.map((cat) => `${cat}`)                           
+                            }
+                        </div>
                         <select
                             defaultValue=""
                             name="category"
@@ -211,11 +235,22 @@ export const AddTakeAwayForm = (props) => {
                             onClick={
                                 evt => {
                                     evt.preventDefault()
-                                    setCategoryInput(true)
+                                    putCategoryintoCategoryArray()
+                                    setCategorySelected(true)
                                 }
                             }
                             className="btn btn-primary">
-                            Add New Category
+                            Add Category to Takeaway
+            </Button>
+                        <Button
+                            onClick={
+                                evt => {
+                                    evt.preventDefault()
+                                    
+                                }
+                            }
+                            className="btn btn-primary">
+                            Create New Category
             </Button>
                     </div>
                     {checkCategoryInput()}

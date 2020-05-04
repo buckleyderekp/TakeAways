@@ -6,9 +6,11 @@ import { CategoryContext } from "../categories/CategoryProvider"
 import { SourceContext } from "../sources/SourceProvider"
 import { TypeContext } from "../type/TypeProvider"
 import { AddTakeAwayForm } from "./addTakeAwayForm"
+import { TakeawaysCategoriesContext } from "../categories/TakeawaysCategoriesProvider"
 
 export const TakeawayList = () => {
     const { takeaways } = useContext(TakeawayContext)
+    const { takeawaysCategories } = useContext(TakeawaysCategoriesContext)
     const { categories } = useContext(CategoryContext)
     const { sources } = useContext(SourceContext)
     const { types } = useContext(TypeContext)
@@ -33,11 +35,20 @@ export const TakeawayList = () => {
                 {
                     filteredTakeaways.map(takeaway => {
 
-                        const matchingCategory = categories.find(category => takeaway.categoryId === category.id) || {}
+                        const activeUserCategories = categories.filter((category)=> category.userId === activeUser) || {}
                         const matchingSource = sources.find(source => takeaway.sourceId === source.id) || {}
                         const matchingType = types.find(type => type.id === matchingSource.id) || {}
+                        const matchingTakeawayCategories = takeawaysCategories.filter(takeawayCategory => takeawayCategory.takeawayId === takeaway.id) || {}
+                        const relatedCategories = matchingTakeawayCategories.map((mtc)=> activeUserCategories.find((cat)=> cat.id === mtc.categoryId ))  || []
+                        console.log(matchingTakeawayCategories)
 
-                        return <Takeaway key={takeaway.id} takeaway={takeaway} category={matchingCategory} source={matchingSource} type={matchingType} />
+                        return <Takeaway 
+                        key={takeaway.id} 
+                        takeaway={takeaway} 
+                        categories={relatedCategories} 
+                        source={matchingSource} 
+                        type={matchingType}
+                         />
                     })
                 }
             </ul>
