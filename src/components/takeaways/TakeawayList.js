@@ -40,7 +40,6 @@ export const TakeawayList = () => {
                         const matchingType = types.find(type => type.id === matchingSource.id) || {}
                         const matchingTakeawayCategories = takeawaysCategories.filter(takeawayCategory => takeawayCategory.takeawayId === takeaway.id) || {}
                         const relatedCategories = matchingTakeawayCategories.map((mtc)=> activeUserCategories.find((cat)=> cat.id === mtc.categoryId ))  || []
-                        console.log(matchingTakeawayCategories)
 
                         return <Takeaway 
                         key={takeaway.id} 
