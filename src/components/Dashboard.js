@@ -20,6 +20,8 @@ export const Dashboard = () => {
 
         <div className="mainContainer">
             <div className="searchContainer">
+                <TakeawayProvider>
+
                 <div className="searchContainer__sources" >
                     <SourceProvider>
                         <SourceSearchBar setSourceSearchTerms={setSourceSearchTerms} />
@@ -32,6 +34,8 @@ export const Dashboard = () => {
                         <CategorySearchResults categorySearchTerms={categorySearchTerms} />
                     </CategoryProvider>
                 </div>
+                </TakeawayProvider>
+
             </div>
             <div className="listContainer">
                 <TakeawayProvider>
