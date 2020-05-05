@@ -36,17 +36,25 @@ export const AddTakeAwayForm = (props) => {
     const newCategory = useRef()
     const userId = parseInt(localStorage.getItem("takeaways_user"))
 
+    // this watches for changes in the state of sources and when there is a state change runs the function that sets the 
+    // value of the dropdown equal to the state variable
     useEffect(() => {
         putNewSourceInDropdown()
     }, [sources])
+
+    // this watches for changes in the state of categories and when there is a state change runs the function that sets the 
+    // value of the dropdown equal to the state variable
     useEffect(() => {
         putNewCategoriesRelationship()
     }, [takeaways])
 
+    // this function sets the value of the dropdown equal to the value stored in the state variable
     const putNewSourceInDropdown = () => {
         source.current.value = sourceDropdownSelection
     }
 
+    // this function maps over the array of categories the user has selected for a takeaway object
+    // and for each item in the array constructs an object and puts the relationship in to the api
  const putNewCategoriesRelationship = () => {
       takeawaysCategories.map((takcat) => {
           const   newTakeCatObj = {
@@ -71,14 +79,16 @@ export const AddTakeAwayForm = (props) => {
 
     }
 
+    // this function builds a new source object and puts it in to the api
+    // and sets the state variable for the dropdown selection as the id of the newly created source
     const addNewSourceToAPI = () => {
         if (sourceInput) {
-
+          
             const newSourceObject = {
                 source: newSource.current.value,
                 typeId: parseInt(type.current.value)
             }
-
+            console.log(newSourceObject)
             addSource(newSourceObject)
                 .then((res) => {
                     setSourceDropdownSelection(res.id)
@@ -87,14 +97,20 @@ export const AddTakeAwayForm = (props) => {
 
         }
     }
+
+    // this function listens for changes in state in the categories provider 
+    // then runs a function that puts the newly created category in to the dropdown
     useEffect(() => {
         putNewCategoryInDropdown()
     }, [categories])
 
+    // this function puts the newly created category in to the category dropdown
     const putNewCategoryInDropdown = () => {
         category.current.value = categoryDropdownSelection
     }
 
+    // this function builds a category object and puts it in to the api 
+    // and sets the state variable for the category dropdown as the id of the newly created source
     const addNewCategoryToAPI = () => {
         if (categoryInput) {
 
@@ -112,6 +128,8 @@ export const AddTakeAwayForm = (props) => {
         }
     }
 
+    // this function constructs a new takeaway object, puts it in to the api, sets the state variable of currentTakeawayId equal to the id 
+    // of the newly created takeaway and then closes the modal
     const constructNewTakeAway = () => {
 
         const newTakeawayObject = {
@@ -122,11 +140,14 @@ export const AddTakeAwayForm = (props) => {
         addTakeaway(newTakeawayObject)
         .then((res) => {
            setCurrentTakeawayId(res.id)
-           
+           console.log(res.id)
+           console.log(currentTakeawayId)
         })
         .then(props.toggler)
     }
 
+    // this function listens for the state of source input and when the user clicks "add new source" and the state variable
+    // changes to true the additional inputs appear to enter a new source
     const checkSourceInput = () => {
         if (sourceInput) {
             return (<div className="form-group">
@@ -141,7 +162,7 @@ export const AddTakeAwayForm = (props) => {
                     placeholder="New Source"
                 />
                 <label htmlFor="category">Choose a Type  </label>
-                <Input
+                <select
                     type="select"
                     defaultValue=""
                     name="type"
@@ -154,8 +175,9 @@ export const AddTakeAwayForm = (props) => {
                         <option key={e.id} value={e.id}>
                             {e.type}
                         </option>
+                    
                     ))}
-                </Input>
+                </select>
                 <Button type="submit"
                     onClick={
                         evt => {
@@ -171,6 +193,9 @@ export const AddTakeAwayForm = (props) => {
             )
         }
     }
+
+    // this function listens for the state of category input and when the user clicks "add new category" and the state variable
+    // changes to true the additional inputs appear to enter a new source
     const checkCategoryInput = () => {
         if (categoryInput) {
             return (<div className="form-group">
@@ -199,6 +224,8 @@ export const AddTakeAwayForm = (props) => {
             )
         }
     }
+
+    // here is the actual form
     return (
         <form className="takeawayForm">
 
