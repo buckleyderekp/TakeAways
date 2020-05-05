@@ -26,12 +26,12 @@ export const Dashboard = () => {
                         <SourceSearchResults sourceSearchTerms={sourceSearchTerms} />
                     </SourceProvider>
                 </div>
-                {/* <div className="searchContainer__categories" >
+                <div className="searchContainer__categories" >
                     <CategoryProvider>
-                        <CategorySearchBar setTerms={setCategorySearchTerms} />
+                        <CategorySearchBar setCategorySearchTerms={setCategorySearchTerms} />
                         <CategorySearchResults categorySearchTerms={categorySearchTerms} />
                     </CategoryProvider>
-                </div> */}
+                </div>
             </div>
             <div className="listContainer">
                 <TakeawayProvider>
