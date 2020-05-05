@@ -3,26 +3,26 @@ import { SourceContext } from "../sources/SourceProvider"
 
 
 
-export const SearchResults = ({ searchTerms }) => {
+export const SourceSearchResults = ( { sourceSearchTerms} ) => {
 
     const { sources } = useContext(SourceContext)
     const [ filteredSources, setFilteredSources ] = useState([])
 
     useEffect(() => {
-        if (searchTerms !== "") {
-            const sourceSubset = sources.filter(sor => sor.source.toLowerCase().includes(searchTerms))
+        if (sourceSearchTerms !== "") {
+            const sourceSubset = sources.filter(sor => sor.source.toLowerCase().includes(sourceSearchTerms))
             setFilteredSources(sourceSubset)
         } else {
             setFilteredSources([])
         }
-    }, [searchTerms, sources])
+    }, [sourceSearchTerms, sources])
 
     return (
         <div className="searchResults">
             <h3>Results</h3>
             <div className="sources">
                 {
-                    filteredSources.map(sor => <div key={ sor.id }>{ sor.category }</div>)
+                    filteredSources.map(sor => <div key={ sor.id }>{ sor.source }</div>)
                 }
             </div>
         </div>

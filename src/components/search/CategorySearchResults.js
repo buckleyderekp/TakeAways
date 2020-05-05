@@ -2,19 +2,19 @@ import React, { useState, useContext, useEffect } from "react"
 
 import { CategoryContext } from "../categories/CategoryProvider"
 
-export const SearchResults = ({ searchTerms }) => {
+export const CategorySearchResults = ({ categorySearchTerms }) => {
 
     const { categories } = useContext(CategoryContext)
     const [ filteredCategories, setFilteredCategories ] = useState([])
 
     useEffect(() => {
-        if (searchTerms !== "") {
-            const categorySubset = categories.filter(cat => cat.category.toLowerCase().includes(searchTerms))
+        if (categorySearchTerms !== "") {
+            const categorySubset = categories.filter(cat => cat.category.toLowerCase().includes(categorySearchTerms))
             setFilteredCategories(categorySubset)
         } else {
             setFilteredCategories([])
         }
-    }, [searchTerms, categories])
+    }, [categorySearchTerms, categories])
 
     return (
         <div className="searchResults">

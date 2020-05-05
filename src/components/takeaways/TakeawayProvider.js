@@ -23,7 +23,15 @@ export const TakeawayProvider = (props) => {
             },
             body: JSON.stringify(takeaway)
         })
-            .then(getTakeaways)
+        .then((res) => {
+            const createdTakeaway = res.json()
+            return createdTakeaway
+        })
+        .then((res) => {
+            getTakeaways()
+            const finalObject =res
+            console.log(finalObject)
+            return finalObject})
     }
 
     const deleteTakeaway = takeawayId => {
