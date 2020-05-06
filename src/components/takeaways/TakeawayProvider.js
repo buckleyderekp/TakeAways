@@ -7,6 +7,8 @@ export const TakeawayContext = React.createContext()
 export const TakeawayProvider = (props) => {
 
     const [takeaways, setTakeaways] = useState([])
+    const [filterBarTakeaways, setFilterBarTakeaways] = useState([])
+
 
 
     const getTakeaways = () => {
@@ -63,7 +65,9 @@ export const TakeawayProvider = (props) => {
                 takeaways,
                 addTakeaway,
                 deleteTakeaway,
-                updateTakeaway
+                updateTakeaway,
+                setFilterBarTakeaways,
+                filterBarTakeaways
             }
         }>
             {props.children}

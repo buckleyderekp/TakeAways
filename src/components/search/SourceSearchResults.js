@@ -3,7 +3,7 @@ import { SourceContext } from "../sources/SourceProvider"
 
 
 
-export const SourceSearchResults = ( { sourceSearchTerms} ) => {
+export const SourceSearchResults = ( { sourceSearchTerms } ) => {
 
     const { sources } = useContext(SourceContext)
     const [ filteredSources, setFilteredSources ] = useState([])
