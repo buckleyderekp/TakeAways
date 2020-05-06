@@ -1,4 +1,5 @@
 import React from "react"
+import "./Takeaway.css"
 
 export const Takeaway = ({takeaway, source, type, categories}) => {
  

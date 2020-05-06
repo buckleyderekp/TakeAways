@@ -11,7 +11,6 @@ export const CategorySearchResults = ({ categorySearchTerms }) => {
         if (categorySearchTerms !== "") {
             const categorySubset = categories.filter(cat => cat.category.toLowerCase().includes(categorySearchTerms))
             setFilteredCategories(categorySubset)
-            console.log(filteredCategories)
         } else {
             setFilteredCategories([])
         }

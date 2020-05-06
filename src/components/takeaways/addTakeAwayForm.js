@@ -4,7 +4,7 @@ import { SourceContext } from "../sources/SourceProvider"
 import { TakeawayContext } from "./TakeawayProvider"
 import { CategoryContext } from "../categories/CategoryProvider"
 import { TakeawaysCategoriesContext } from "../categories/TakeawaysCategoriesProvider"
-import { Input, Button } from "reactstrap"
+import { Button } from "reactstrap"
 import "./addTakeawayForm.css"
 
 
@@ -180,7 +180,7 @@ export const AddTakeAwayForm = (props) => {
                     
                     ))}
                 </select>
-                <Button type="submit"
+                <button className="button" type="submit"
                     onClick={
                         evt => {
                             evt.preventDefault()
@@ -188,9 +188,9 @@ export const AddTakeAwayForm = (props) => {
                             setSourceInput(false)
                         }
                     }
-                    className="btn btn-primary">
+                    >
                     Save Source
-            </Button>
+            </button>
             </div>
             )
         }
@@ -211,7 +211,7 @@ export const AddTakeAwayForm = (props) => {
                     className="form-control"
                     placeholder="New Category"
                 />
-                <Button type="submit"
+                <button type="submit"
                     onClick={
                         evt => {
                             evt.preventDefault()
@@ -219,9 +219,9 @@ export const AddTakeAwayForm = (props) => {
                             setCategoryInput(false)
                         }
                     }
-                    className="btn btn-primary">
+                    className="button">
                     Save Category
-            </Button>
+            </button>
             </div>
             )
         }
@@ -247,16 +247,16 @@ export const AddTakeAwayForm = (props) => {
                             </option>
                         ))}
                     </select>
-                    <Button
+                    <button
                         onClick={
                             evt => {
                                 evt.preventDefault()
                                 setSourceInput(true)
                             }
                         }
-                        className="btn btn-primary">
+                        className="button">
                         Add New Source
-                        </Button>
+                        </button>
 
                     {checkSourceInput()}
                     <div className="form-group">
@@ -280,7 +280,7 @@ export const AddTakeAwayForm = (props) => {
                                 </option>
                             ))} 
                          </select>
-                    <Button
+                    <button
                         onClick={
                             evt => {
                                 evt.preventDefault()
@@ -288,10 +288,10 @@ export const AddTakeAwayForm = (props) => {
                                 setCategorySelected(true)
                             }
                         }
-                        className="btn btn-primary">
+                        className="button">
                         Add Category to Takeaway
-            </Button>
-                    <Button
+            </button>
+                    <button
                         onClick={
                             evt => {
                                 evt.preventDefault()
@@ -299,9 +299,9 @@ export const AddTakeAwayForm = (props) => {
                                 
                             }
                         }
-                        className="btn btn-primary">
+                        className="button">
                         Create New Category
-            </Button>
+            </button>
                 </div>
                 {checkCategoryInput()}
 
@@ -310,7 +310,7 @@ export const AddTakeAwayForm = (props) => {
                 <label htmlFor="takeaway">Takeaway: </label>
                 <input
                     type="textarea"
-                    id="takeaway"
+                    id="takeawayInput"
                     ref={takeaway}
                     required
                     autoFocus
@@ -320,16 +320,16 @@ export const AddTakeAwayForm = (props) => {
             </div>
             </fieldset>
 
-        <Button type="submit"
+        <button type="submit"
             onClick={
                 evt => {
                     evt.preventDefault()
                     constructNewTakeAway()
                 }
             }
-            className="btn btn-primary">
+            className="button">
             Save
-            </Button>
+            </button>
         </form >
     )
 }

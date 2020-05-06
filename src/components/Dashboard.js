@@ -9,6 +9,7 @@ import { CategorySearchBar } from "./search/CategorySearBar"
 import { SourceSearchBar } from "./search/SourceSearchBar"
 import { SourceSearchResults } from "./search/SourceSearchResults"
 import { CategorySearchResults } from "./search/CategorySearchResults"
+import "./Dashboard.css"
 
 
 
@@ -19,19 +20,22 @@ export const Dashboard = () => {
     return (
 
         <div className="mainContainer">
+            <header className="header">
+                <div className="logo"></div>
+            </header>
             <div className="searchContainer">
                 <TakeawayProvider>
 
                 <div className="searchContainer__sources" >
                     <SourceProvider>
                         <SourceSearchBar setSourceSearchTerms={setSourceSearchTerms} />
-                        <SourceSearchResults sourceSearchTerms={sourceSearchTerms} />
+
                     </SourceProvider>
                 </div>
                 <div className="searchContainer__categories" >
                     <CategoryProvider>
                         <CategorySearchBar setCategorySearchTerms={setCategorySearchTerms} />
-                        <CategorySearchResults categorySearchTerms={categorySearchTerms} />
+
                     </CategoryProvider>
                 </div>
                 </TakeawayProvider>

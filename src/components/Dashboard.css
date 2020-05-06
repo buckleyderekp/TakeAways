@@ -1,0 +1,29 @@
+.mainContainer{
+    background-color: #a6a6a6;
+    height: 100%;
+}
+.takeaway{
+    width: 20%;
+}
+.searchContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+.searchContainer__sources{
+    width: 40%;
+}
+.searchContainer__categories{
+    width: 40%;
+}
+
+.logo {
+    background-image: url(Logo.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 450px;
+    height: 100px;
+    padding-top: 100px;
+   
+}
+

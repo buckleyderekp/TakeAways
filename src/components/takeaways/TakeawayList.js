@@ -7,6 +7,7 @@ import { SourceContext } from "../sources/SourceProvider"
 import { TypeContext } from "../type/TypeProvider"
 import { AddTakeAwayForm } from "./addTakeAwayForm"
 import { TakeawaysCategoriesContext } from "../categories/TakeawaysCategoriesProvider"
+import "./takeawayList.css"
 
 export const TakeawayList = ({ sourceSearchTerms, categorySearchTerms }) => {
 
@@ -53,19 +54,20 @@ export const TakeawayList = ({ sourceSearchTerms, categorySearchTerms }) => {
     )
     useEffect(() => {
         if (categorySearchTerms !== "") {
+
+            const filteredCategories = categories.filter((c) => c.category.toLowerCase().includes(categorySearchTerms)) || []
+            const filteredTakeawayCategories = takeawaysCategories.filter(taca => filteredCategories.some(fc => taca.categoryId === fc.id) ? true : false)  || []
+
             let categoryFilteredTakeaways = filteredTakeaways.filter(tak => {
 
-                if (categories.some(c => takeawaysCategories.some((tc)=> c.category.toLowerCase().includes(sourceSearchTerms) && tak.Id === tc.takeawayId))) {
+                if (filteredTakeawayCategories.some(ftc => ftc.takeawayId  === tak.id)) {
                     return true
                 }
                 else {
                     return false
                 }
-
             })
-            
             setFilterBarTakeaways(categoryFilteredTakeaways)
-
         }
         else {
             setFilterBarTakeaways(filteredTakeaways)
@@ -76,16 +78,18 @@ export const TakeawayList = ({ sourceSearchTerms, categorySearchTerms }) => {
 
     return (
         <>
-            <h2>Takeaways</h2>
+            <h2 className="listHeader">Takeaways</h2>
+        <div classname="buttonContainer">
 
-            <Button onClick={() => {
+            <button className ="button" id="addNew" onClick={() => {
                 // check if the user is authenticated
                 const userId = localStorage.getItem("takeaways_user")
                 if (userId) {
-
+                    
                     toggle()
                 }
-            }}>Add New</Button>
+            }}>Add New</button>
+            </div>
             <ul className="takeaways">
                 {
                     filterBarTakeaways.map(takeaway => {
