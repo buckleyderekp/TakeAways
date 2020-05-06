@@ -27,7 +27,6 @@ export const AddTakeAwayForm = (props) => {
     const [takeawaysCategories, setTakeawaysCategories] = useState([])
     const categoriesForThisTakeaway = takeawaysCategories.map((tak) => categories.find((cat) => cat.id === tak))
     
-
     const takeaway = useRef()
     const category = useRef()
     const type = useRef()
@@ -35,7 +34,9 @@ export const AddTakeAwayForm = (props) => {
     const newSource = useRef()
     const newCategory = useRef()
     const userId = parseInt(localStorage.getItem("takeaways_user"))
-
+    
+    const sourcesForThisUser = sources.filter(s => s.userId === userId)
+    const categoriesForThisUser = categories.filter(c => c.userId === userId)
     // this watches for changes in the state of sources and when there is a state change runs the function that sets the 
     // value of the dropdown equal to the state variable
     useEffect(() => {
@@ -86,7 +87,8 @@ export const AddTakeAwayForm = (props) => {
           
             const newSourceObject = {
                 source: newSource.current.value,
-                typeId: parseInt(type.current.value)
+                typeId: parseInt(type.current.value),
+                userId: parseInt(localStorage.getItem("takeaways_user"))
             }
             console.log(newSourceObject)
             addSource(newSourceObject)
@@ -239,7 +241,7 @@ export const AddTakeAwayForm = (props) => {
                         className="form-control"
                     >
                         <option value="0">- Select a source -</option>
-                        {sources.map(e => (
+                        {sourcesForThisUser.map(e => (
                             <option key={e.id} value={e.id}>
                                 {e.source}
                             </option>
@@ -272,7 +274,7 @@ export const AddTakeAwayForm = (props) => {
                             className="form-control"
                         >
                             <option value="0">- Select a Category -</option>
-                            {categories.map(e => (
+                            {categoriesForThisUser.map(e => (
                                 <option key={e.id} value={e.id}>
                                     {e.category}
                                 </option>

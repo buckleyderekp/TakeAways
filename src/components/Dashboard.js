@@ -43,7 +43,7 @@ export const Dashboard = () => {
                         <SourceProvider>
                             <TypeProvider>
                                 <TakeawaysCategoryProvider>
-                                    <TakeawayList />
+                                    <TakeawayList sourceSearchTerms={sourceSearchTerms} categorySearchTerms={categorySearchTerms}/>
                                 </TakeawaysCategoryProvider>
                             </TypeProvider>
                         </SourceProvider>
