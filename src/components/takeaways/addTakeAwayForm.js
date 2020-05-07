@@ -25,7 +25,7 @@ export const AddTakeAwayForm = (props) => {
     const [currentTakeawayId, setCurrentTakeawayId] = useState(0)
     const [categoryDropdownSelection, setCategoryDropdownSelection] = useState(0)
     const [takeawaysCategories, setTakeawaysCategories] = useState([])
-    const categoriesForThisTakeaway = takeawaysCategories.map((tak) => categories.find((cat) => cat.id === tak))
+    const categoriesForThisTakeaway = takeawaysCategories.map((tak) => categories.find((cat) => cat.id === tak)) || []
     
     const takeaway = useRef()
     const category = useRef()
@@ -263,8 +263,8 @@ export const AddTakeAwayForm = (props) => {
 
                         <label htmlFor="category">Choose an Existing Category</label>   
                         <div>{categoriesForThisTakeaway.map((cat) => {
-                            return `${cat.category}`
-                        }).join(", ")
+                            return `${cat.category}` || ""
+                        }).join(", ") 
                     }</div>
                         <select
                             defaultValue=""
