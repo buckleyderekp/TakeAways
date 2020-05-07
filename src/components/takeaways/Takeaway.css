@@ -1,3 +1,37 @@
 .takeaway{
-    width: 20%;
+  width: 20%;
+  height: 325x;
+    color: #133460;
+    margin: 2em;
+    border: solid 2px gray;
+    border-radius: 3%;
+    padding-top: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
+    background-color: #c9c9c9;
+    box-shadow: 5px 8px rgb(116, 115, 115);
+    display: column;
+    justify-content: space-between;
+    font-size: larger;
+    font-weight: bold;
+}
+
+.takeawayText{
+    margin: .5em;
+}
+
+.takeawayButtonContainer{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    margin-top: 2.5em;
+}
+
+.takeaway__source{
+    font-weight: bolder;
+    font-size: larger; 
+}
+
+.takeaway__text {
+    margin-top: 2em;
 }

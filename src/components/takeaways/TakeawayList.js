@@ -79,7 +79,7 @@ export const TakeawayList = ({ sourceSearchTerms, categorySearchTerms }) => {
     return (
         <>
             <h2 className="listHeader">Takeaways</h2>
-        <div classname="buttonContainer">
+        <div className="buttonContainer">
 
             <button className ="button" id="addNew" onClick={() => {
                 // check if the user is authenticated
@@ -88,7 +88,7 @@ export const TakeawayList = ({ sourceSearchTerms, categorySearchTerms }) => {
                     
                     toggle()
                 }
-            }}>Add New</button>
+            }}>New</button>
             </div>
             <ul className="takeaways">
                 {
@@ -110,7 +110,7 @@ export const TakeawayList = ({ sourceSearchTerms, categorySearchTerms }) => {
                     })
                 }
             </ul>
-            <Modal isOpen={modal} toggle={toggle}>
+            <Modal className="formModal" isOpen={modal} toggle={toggle}>
                 <ModalHeader toggle={toggle}>
                     Add New Takeaway
                 </ModalHeader>
