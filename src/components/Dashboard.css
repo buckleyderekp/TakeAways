@@ -2,9 +2,7 @@
     background-color: #a6a6a6;
     height: 100%;
 }
-.takeaway{
-    width: 20%;
-}
+
 .searchContainer{
     display: flex;
     flex-direction: row;
@@ -23,7 +21,15 @@
     background-size: contain;
     width: 450px;
     height: 100px;
-    padding-top: 100px;
+    padding-top: 125px;
    
 }
+
+.filterHeader{
+    color: #133460;
+    font-weight: bolder;
+    font-size: larger;
+    margin-top: 2em;
+}
+
 
