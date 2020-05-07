@@ -4,7 +4,7 @@ import { SourceContext } from "../sources/SourceProvider"
 import { TakeawayContext } from "./TakeawayProvider"
 import { CategoryContext } from "../categories/CategoryProvider"
 import { TakeawaysCategoriesContext } from "../categories/TakeawaysCategoriesProvider"
-import { Button } from "reactstrap"
+import { Button, Input } from "reactstrap"
 import "./addTakeawayForm.css"
 
 
@@ -262,9 +262,9 @@ export const AddTakeAwayForm = (props) => {
                     <div className="form-group">
 
                         <label htmlFor="category">Choose an Existing Category</label>   
-                        <div>{categoriesForThisTakeaway.map((cat) => {
+                        <div className="category__categoriesList">{categoriesForThisTakeaway.map((cat) => {
                             return `${cat.category}`
-                        }).join(", ")
+                        }).join(", ") 
                     }</div>
                         <select
                             defaultValue=""
@@ -308,14 +308,14 @@ export const AddTakeAwayForm = (props) => {
                 </div>
             <div className="form-group">
                 <label htmlFor="takeaway">Takeaway: </label>
-                <input
+                <Input
                     type="textarea"
                     id="takeawayInput"
-                    ref={takeaway}
+                    innerRef={takeaway}
                     required
                     autoFocus
                     className="form-control"
-                    placeholder="I learned..."></input>
+                    placeholder="I learned..."/>
 
             </div>
             </fieldset>
