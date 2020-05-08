@@ -16,16 +16,20 @@ export const EditTakeAwayForm = ({ takeawayObject, toggler }) => {
     const { sources, addSource, currentSource, setCurrentSource, getSources } = useContext(SourceContext)
     const { categories, addCategory, currentCategory, setCurrentCategory, getCategories } = useContext(CategoryContext)
     const { takeaways, addTakeaway, updateTakeaway } = useContext(TakeawayContext)
-    const { addTakeawaysCategory } = useContext(TakeawaysCategoriesContext)
+    const { takeawaysCategories, addTakeawaysCategory } = useContext(TakeawaysCategoriesContext)
     const { types } = useContext(TypeContext)
     const [sourceInput, setSourceInput] = useState(false)
     const [categoryInput, setCategoryInput] = useState(false)
     const [categorySelected, setCategorySelected] = useState(false)
+    const [displayExistingTakeawayCategories, setDisplayExistingTakeawayCategories] = useState(false)
     const [sourceDropdownSelection, setSourceDropdownSelection] = useState(0)
     const [currentTakeawayId, setCurrentTakeawayId] = useState(0)
     const [categoryDropdownSelection, setCategoryDropdownSelection] = useState(0)
-    const [takeawaysCategories, setTakeawaysCategories] = useState([])
-    const categoriesForThisTakeaway = takeawaysCategories.map((tak) => categories.find((cat) => cat.id === tak))
+    const [editTakeawaysCategories, setEditTakeawaysCategories] = useState([])
+    const existingTakeawayCategories = takeawaysCategories.filter(tac => takeawayObject.id === tac.takeawayId) || []
+    const existingCategories = categories.filter(cat => existingTakeawayCategories.some(etc => cat.id === etc.categoryId) ? true : false)
+
+    const categoriesForThisTakeaway = editTakeawaysCategories.map((tak) => categories.find((cat) => cat.id === tak)) || []
     
     const takeaway = useRef()
     const category = useRef()
@@ -46,8 +50,20 @@ export const EditTakeAwayForm = ({ takeawayObject, toggler }) => {
  updateTakeaway(updatedTakeawayObject)
 }
 
+const renderExistingTakeawayCategories = () =>{
+
+  if(displayExistingTakeawayCategories === true){
+      console.log(existingCategories)
+      existingCategories.map(etc =>{
+          return `${etc.category}`
+
+      } ) 
+
+  }
+}
+
 const putNewCategoriesRelationship = () => {
-    takeawaysCategories.map((takcat) => {
+    editTakeawaysCategories.map((takcat) => {
         const   newTakeCatObj = {
                       takeawayId: takeawayObject.id, 
                       categoryId: takcat
@@ -59,13 +75,13 @@ const putNewCategoriesRelationship = () => {
 
 const putCategoryintoCategoryArray = () => {
     // copy the state variable with slice
-    const copy = takeawaysCategories.slice()
+    const copy = editTakeawaysCategories.slice()
     //  push new value in to the copy
 
     copy.push(parseInt(category.current.value))
     // call setter function and pass in array as an argument
-    setTakeawaysCategories(copy)
-    console.log(takeawaysCategories)
+    setEditTakeawaysCategories(copy)
+    console.log(editTakeawaysCategories)
 
 }
 
@@ -116,6 +132,17 @@ const putCategoryintoCategoryArray = () => {
                         }
                         className="button">
                         Add Category to Takeaway
+            </button>
+            {renderExistingTakeawayCategories()}
+                    <button
+                        onClick={
+                            evt => {
+                                evt.preventDefault()
+                                setDisplayExistingTakeawayCategories(true)
+                            }
+                        }
+                        className="button">
+                        Remove Existing Categories
             </button>
             <div className="form-group">
                 <label htmlFor="takeaway">Takeaway: </label>
