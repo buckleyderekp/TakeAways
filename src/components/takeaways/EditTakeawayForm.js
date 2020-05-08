@@ -39,7 +39,7 @@ export const EditTakeAwayForm = ({ takeawayObject, toggler }) => {
        const updatedTakeawayObject = {
         id: takeawayObject.id,
         userId: takeawayObject.userId,
-        sourceId: takeawayObject.sourceId,
+        sourceId: parseInt(source.current.value),
         takeaway: takeaway.current.value
  }  
 
@@ -49,7 +49,20 @@ export const EditTakeAwayForm = ({ takeawayObject, toggler }) => {
     // here is the actual form
     return (
         <form className="takeawayForm">
-
+                    <label htmlFor="source">Change Source  </label>
+                    <select
+                        name="source"
+                        ref={source}
+                        id="takeawaySource"
+                        className="form-control"
+                    >
+                        <option value="0">- Select a source -</option>
+                        {sourcesForThisUser.map(e => (
+                            <option key={e.id} value={e.id}>
+                                {e.source}
+                            </option>
+                        ))}
+                    </select>
             <fieldset>
 
             <div className="form-group">
