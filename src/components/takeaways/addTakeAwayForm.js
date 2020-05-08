@@ -262,7 +262,7 @@ export const AddTakeAwayForm = (props) => {
                     <div className="form-group">
 
                         <label htmlFor="category">Choose an Existing Category</label>   
-                        <div>{categoriesForThisTakeaway.map((cat) => {
+                        <div className="category__categoriesList">{categoriesForThisTakeaway.map((cat) => {
                             return `${cat.category}` || ""
                         }).join(", ") 
                     }</div>
