@@ -11,3 +11,20 @@
 .formInputLabel{
     margin-top: 1.5em;
 }
+
+.editFormCategories{
+    font-weight: bold;
+    font-size: large;
+    margin-left: 2em;
+    display: flex;
+    flex-direction: row;
+}
+
+.editFormCategory{
+    margin-top: 2em;
+}
+
+.existingTakeawayCategoriesContainer{
+    display: flex;
+    flex-flow: column nowrap;
+}
