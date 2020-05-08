@@ -46,15 +46,39 @@ export const EditTakeAwayForm = ({ takeawayObject, toggler }) => {
  updateTakeaway(updatedTakeawayObject)
 }
 
+const putNewCategoriesRelationship = () => {
+    takeawaysCategories.map((takcat) => {
+        const   newTakeCatObj = {
+                      takeawayId: takeawayObject.id, 
+                      categoryId: takcat
+                  }
+              addTakeawaysCategory(newTakeCatObj)
+              }) 
+}
+
+
+const putCategoryintoCategoryArray = () => {
+    // copy the state variable with slice
+    const copy = takeawaysCategories.slice()
+    //  push new value in to the copy
+
+    copy.push(parseInt(category.current.value))
+    // call setter function and pass in array as an argument
+    setTakeawaysCategories(copy)
+    console.log(takeawaysCategories)
+
+}
+
     // here is the actual form
     return (
         <form className="takeawayForm">
-                    <label htmlFor="source">Change Source  </label>
+                    <label className="formInputLabel" htmlFor="source">Change Source  </label>
                     <select
                         name="source"
                         ref={source}
                         id="takeawaySource"
                         className="form-control"
+                        defaultValue={takeawayObject.sourceId}
                     >
                         <option value="0">- Select a source -</option>
                         {sourcesForThisUser.map(e => (
@@ -64,7 +88,35 @@ export const EditTakeAwayForm = ({ takeawayObject, toggler }) => {
                         ))}
                     </select>
             <fieldset>
-
+            <label className="formInputLabel" htmlFor="category">Add a New Category</label>   
+                        <div className="category__categoriesList">{categoriesForThisTakeaway.map((cat) => {
+                            return `${cat.category}` || ""
+                        }).join(", ") 
+                    }</div>
+                        <select
+                            defaultValue=""
+                            name="category"
+                            ref={category}
+                            id="takeawayCategory"
+                            className="form-control"
+                        >
+                            <option value="0">- Select a Category -</option>
+                            {categoriesForThisUser.map(e => (
+                                <option key={e.id} value={e.id}>
+                                    {e.category}
+                                </option>
+                            ))} 
+                         </select>
+                    <button
+                        onClick={
+                            evt => {
+                                evt.preventDefault()
+                                putCategoryintoCategoryArray()
+                            }
+                        }
+                        className="button">
+                        Add Category to Takeaway
+            </button>
             <div className="form-group">
                 <label htmlFor="takeaway">Takeaway: </label>
                 <input
@@ -84,6 +136,7 @@ export const EditTakeAwayForm = ({ takeawayObject, toggler }) => {
                 evt => {
                     evt.preventDefault()
                     constructAndUpdateTakeaway()
+                    putNewCategoriesRelationship()
                     toggler()
                 }
             }
