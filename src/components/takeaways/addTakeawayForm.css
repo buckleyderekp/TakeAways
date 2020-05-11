@@ -28,3 +28,10 @@
     display: flex;
     flex-flow: column nowrap;
 }
+
+.formModal{
+    background-color: #a6a6a6 !important;
+}
+.formGroup{
+    background-color: #a6a6a6;
+}
