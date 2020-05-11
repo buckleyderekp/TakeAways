@@ -3,11 +3,14 @@ import { TakeawayContext } from "./TakeawayProvider"
 import { Button, Modal, ModalBody, ModalHeader } from "reactstrap"
 import { Takeaway } from "./Takeaway"
 import { CategoryContext } from "../categories/CategoryProvider"
+import { EditCategoriesForm } from "../categories/manageCategoriesModal"
+import { EditSourcesForm } from "../sources/ManageSourcesModal"
 import { SourceContext } from "../sources/SourceProvider"
 import { TypeContext } from "../type/TypeProvider"
 import { AddTakeAwayForm } from "./addTakeAwayForm"
 import { TakeawaysCategoriesContext } from "../categories/TakeawaysCategoriesProvider"
 import "./takeawayList.css"
+import "./addTakeawayForm.css"
 
 export const TakeawayList = ({ sourceSearchTerms, categorySearchTerms }) => {
 
@@ -20,6 +23,10 @@ export const TakeawayList = ({ sourceSearchTerms, categorySearchTerms }) => {
     const filteredTakeaways = takeaways.filter(takeaway => takeaway.userId === activeUser)
     const [modal, setModal] = useState(false)
     const toggle = () => setModal(!modal)
+    const [sourcesModal, setSourcesModal] = useState(false)
+    const toggleSources = () => setSourcesModal(!sourcesModal)
+    const [categoriesModal, setCategoriesModal] = useState(false)
+    const toggleCategories = () => setCategoriesModal(!categoriesModal)
 
 
     useEffect(() => {
@@ -75,20 +82,74 @@ export const TakeawayList = ({ sourceSearchTerms, categorySearchTerms }) => {
     },
         [categorySearchTerms]
     )
+    useEffect(() => {
+        if (categorySearchTerms !== "" && sourceSearchTerms !== "") {
+
+            const filteredCategories = categories.filter((c) => c.category.toLowerCase().includes(categorySearchTerms)) || []
+            const filteredTakeawayCategories = takeawaysCategories.filter(taca => filteredCategories.some(fc => taca.categoryId === fc.id) ? true : false)  || []
+
+            let categoryFilteredTakeaways = filteredTakeaways.filter(tak => {
+
+                if (filteredTakeawayCategories.some(ftc => ftc.takeawayId  === tak.id)) {
+                    return true
+                }
+                else {
+                    return false
+                }
+            })
+            let sourceFilteredTakeaways = filteredTakeaways.filter(tak => {
+
+                if (sources.some(s => s.source.toLowerCase().includes(sourceSearchTerms) && s.id === tak.sourceId)) {
+                    return true
+                }
+                else {
+                    return false
+                }
+
+            })
+
+            let sourceAndCategoryFilteredTakeaways = categoryFilteredTakeaways.filter(cft=> sourceFilteredTakeaways.filter(sft=> sft.id === cft.id))
+            setFilterBarTakeaways(sourceAndCategoryFilteredTakeaways)
+        }
+
+    },
+        [categorySearchTerms, sourceSearchTerms]
+    )
 
     return (
         <>
             <h2 className="listHeader">Takeaways</h2>
         <div className="buttonContainer">
+<div className="editSourcesCategoriesContainer">
 
-            <button className ="button" id="addNew" onClick={() => {
+            <button className ="button" id="manageCategories" onClick={() => {
+                // check if the user is authenticated
+                const userId = localStorage.getItem("takeaways_user")
+                if (userId) {
+                    
+                    toggleCategories()
+                }
+            }}>Manage Categories</button>
+            <button className ="button" id="manageSources" onClick={() => {
+                // check if the user is authenticated
+                const userId = localStorage.getItem("takeaways_user")
+                if (userId) {
+                    
+                    toggleSources()
+                }
+            }}>Manage Sources</button>
+            </div>
+            <div className="addNewButtonContainer">
+            <button className ="button addNewButton" id="addNew" onClick={() => {
+                
                 // check if the user is authenticated
                 const userId = localStorage.getItem("takeaways_user")
                 if (userId) {
                     
                     toggle()
                 }
-            }}>New</button>
+            }}>New Takeaway</button>
+            </div>
             </div>
             <ul className="takeaways">
                 {
@@ -116,6 +177,22 @@ export const TakeawayList = ({ sourceSearchTerms, categorySearchTerms }) => {
                 </ModalHeader>
                 <ModalBody>
                     <AddTakeAwayForm toggler={toggle} />
+                </ModalBody>
+            </Modal>
+            <Modal className="formModal" isOpen={categoriesModal} toggle={toggleCategories}>
+                <ModalHeader toggle={toggleCategories}>
+                    Manage Categories
+                </ModalHeader>
+                <ModalBody>
+                    <EditCategoriesForm toggler={toggleCategories} />
+                </ModalBody>
+            </Modal>
+            <Modal className="formModal" isOpen={sourcesModal} toggle={toggleSources}>
+                <ModalHeader toggle={toggleSources}>
+                    Manage Sources
+                </ModalHeader>
+                <ModalBody>
+                    <EditSourcesForm toggler={toggleSources} />
                 </ModalBody>
             </Modal>
         </>

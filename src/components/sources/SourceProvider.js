@@ -41,7 +41,7 @@ export const SourceProvider = (props) => {
     }
 
     const updateSource = source => {
-        return fetch(`http://localhost:8088/source/${source.id}`, {
+        return fetch(`http://localhost:8088/sources/${source.id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"

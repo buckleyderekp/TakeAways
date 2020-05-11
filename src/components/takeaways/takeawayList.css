@@ -11,11 +11,12 @@
 
 
 .buttonContainer{
-    width: 10%;
+    width: 100%;
     display: flex;
-    margin: auto;
-    justify-content: center;
+    flex-direction: row;
+
 }
+
 .button{
     margin: 2em;
         background-color: #133460;
@@ -34,3 +35,20 @@
     color: #133460;
     margin-top: 2em;
 }
+.editSourcesCategoriesContainer{
+display: flex;
+flex-direction: column;
+    justify-content: left;
+    width: 19%;
+    
+}
+
+.addNewButtonContainer{
+ margin-left: 24.8em;
+}
+
+.addNewButton{
+    margin-top: 5em;
+}
+
+
