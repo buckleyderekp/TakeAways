@@ -13,7 +13,8 @@ const categoriesForThisUser = categories.filter(c => c.userId === userId)
 const constructAndUpdateCategory =()=>{
     const updatedCategory = {
         category: categoryInput.current.value,
-        id: categoryToBeEdited.id
+        id: categoryToBeEdited.id,
+        userId: userId
     }
     console.log(updatedCategory)
     updateCategory(updatedCategory)

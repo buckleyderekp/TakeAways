@@ -32,7 +32,6 @@ export const TakeawayProvider = (props) => {
         .then((res) => {
             getTakeaways()
             const finalObject =res
-            console.log(finalObject)
             return finalObject})
     }
 

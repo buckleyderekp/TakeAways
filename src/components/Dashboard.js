@@ -1,8 +1,10 @@
 import React, { useState } from "react"
 import { TakeawayProvider } from "./takeaways/TakeawayProvider"
 import { TakeawayList } from "./takeaways/TakeawayList"
+import { UserList } from "./users/UserList"
 import { CategoryProvider } from "./categories/CategoryProvider"
 import { SourceProvider } from "./sources/SourceProvider"
+import { UserProvider } from "./users/UserProvider"
 import { TypeProvider } from "./type/TypeProvider"
 import { TakeawaysCategoryProvider } from "./categories/TakeawaysCategoriesProvider"
 import { CategorySearchBar } from "./search/CategorySearBar"
@@ -10,6 +12,7 @@ import { SourceSearchBar } from "./search/SourceSearchBar"
 import { SourceSearchResults } from "./search/SourceSearchResults"
 import { CategorySearchResults } from "./search/CategorySearchResults"
 import "./Dashboard.css"
+import { FollowingProvider } from "./following/FollowingProvider"
 
 
 
@@ -26,18 +29,18 @@ export const Dashboard = () => {
             <div className="searchContainer">
                 <TakeawayProvider>
 
-                <div className="searchContainer__sources" >
-                    <SourceProvider>
-                        <SourceSearchBar setSourceSearchTerms={setSourceSearchTerms} />
+                    <div className="searchContainer__sources" >
+                        <SourceProvider>
+                            <SourceSearchBar setSourceSearchTerms={setSourceSearchTerms} />
 
-                    </SourceProvider>
-                </div>
-                <div className="searchContainer__categories" >
-                    <CategoryProvider>
-                        <CategorySearchBar setCategorySearchTerms={setCategorySearchTerms} />
+                        </SourceProvider>
+                    </div>
+                    <div className="searchContainer__categories" >
+                        <CategoryProvider>
+                            <CategorySearchBar setCategorySearchTerms={setCategorySearchTerms} />
 
-                    </CategoryProvider>
-                </div>
+                        </CategoryProvider>
+                    </div>
                 </TakeawayProvider>
 
             </div>
@@ -47,12 +50,23 @@ export const Dashboard = () => {
                         <SourceProvider>
                             <TypeProvider>
                                 <TakeawaysCategoryProvider>
-                                    <TakeawayList sourceSearchTerms={sourceSearchTerms} categorySearchTerms={categorySearchTerms}/>
+                                    <TakeawayList sourceSearchTerms={sourceSearchTerms} categorySearchTerms={categorySearchTerms} />
                                 </TakeawaysCategoryProvider>
                             </TypeProvider>
                         </SourceProvider>
                     </CategoryProvider>
                 </TakeawayProvider>
+                <div className="UserList">
+                    <CategoryProvider>
+                        <SourceProvider>
+                            <FollowingProvider>
+                                <UserProvider>
+                                    <UserList />
+                                </UserProvider>
+                            </FollowingProvider>
+                        </SourceProvider>
+                    </CategoryProvider>
+                </div>
             </div>
         </div>
     )

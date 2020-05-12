@@ -160,7 +160,6 @@ export const TakeawayList = ({ sourceSearchTerms, categorySearchTerms }) => {
                         const matchingType = types.find(type => type.id === matchingSource.typeId) || {}
                         const matchingTakeawayCategories = takeawaysCategories.filter(takeawayCategory => takeawayCategory.takeawayId === takeaway.id) || {}
                         const relatedCategories = matchingTakeawayCategories.map((mtc) => activeUserCategories.find((cat) => cat.id === mtc.categoryId)) || []
-
                         return <Takeaway
                             key={takeaway.id}
                             takeaway={takeaway}
