@@ -9,6 +9,7 @@ export const UserProvider = (props) => {
 
     const [users, setUsers] = useState([])
     const [currentUser, setCurrentUser] = useState({})
+    const [filteredUsers, setFilteredUsers] = useState([])
     
 
     const getUsers = () => {
@@ -65,7 +66,9 @@ export const UserProvider = (props) => {
                 deleteUser,
                 updateUser,
                 currentUser,
-                setCurrentUser
+                setCurrentUser,
+                filteredUsers,
+                setFilteredUsers
             }
         }>
             {props.children}

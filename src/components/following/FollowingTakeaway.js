@@ -1,10 +1,10 @@
 import React from "react"
-import "./Takeaway.css"
 
 
 
 
-export const Takeaway = ({ takeaway, source, type, categories }) => {
+
+export const FollowingTakeaway = ({ takeaway, source, type, categories }) => {
 
 
 
@@ -20,8 +20,7 @@ export const Takeaway = ({ takeaway, source, type, categories }) => {
 
             </div>
             <div className="takeaway__text takeawayText">Takeaway:  {takeaway.takeaway}</div>
-            <div className="takeawayButtonContainer takeawayText">
-            </div>
+
 
         </section>
     )

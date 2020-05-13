@@ -31,7 +31,7 @@ export const FollowingProvider = (props) => {
     }
 
     const deleteFollowing = followingId => {
-        return fetch(`http://localhost:8088/takeawaysCategories/${followingId}`, {
+        return fetch(`http://localhost:8088/following/${followingId}`, {
             method: "DELETE"
         })
             .then(getFollowing)
