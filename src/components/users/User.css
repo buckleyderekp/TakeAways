@@ -14,6 +14,7 @@
       justify-content: space-between;
       font-size: larger;
       font-weight: bold;
+      padding-bottom: 1em;
   }
 
   .userButtonContainer{
@@ -21,4 +22,9 @@
       display: flex;
       flex-direction: row;
       justify-content: space-evenly;
+  }
+
+  .user__name{
+      font-weight: bolder;
+      font-size: larger;
   }

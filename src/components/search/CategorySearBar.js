@@ -1,6 +1,10 @@
-import React, { useRef } from "react"
+import React, { useRef, useState, useContext } from "react"
+import { CategoryContext } from "../categories/CategoryProvider"
 
-export const CategorySearchBar = ({ setCategorySearchTerms }) => (
+export const CategorySearchBar = () => {
+    const {setCategorySearchTerms} = useContext(CategoryContext)
+
+    return(
     <fieldset>
         <div className="form-group">
             <label className="filterHeader"  htmlFor="searchTerms">Filter by Category:</label>
@@ -12,4 +16,5 @@ export const CategorySearchBar = ({ setCategorySearchTerms }) => (
             />
         </div>
     </fieldset>
-)
+    )
+    }

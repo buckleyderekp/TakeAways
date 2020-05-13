@@ -11,13 +11,15 @@ import { AddTakeAwayForm } from "./addTakeAwayForm"
 import { TakeawaysCategoriesContext } from "../categories/TakeawaysCategoriesProvider"
 import "./takeawayList.css"
 import "./addTakeawayForm.css"
+import { CategorySearchBar } from "../search/CategorySearBar"
+import { SourceSearchBar } from "../search/SourceSearchBar"
 
-export const TakeawayList = ({ sourceSearchTerms, categorySearchTerms }) => {
+export const TakeawayList = () => {
 
     const { takeaways, filterBarTakeaways, setFilterBarTakeaways } = useContext(TakeawayContext)
     const { takeawaysCategories } = useContext(TakeawaysCategoriesContext)
-    const { categories } = useContext(CategoryContext)
-    const { sources } = useContext(SourceContext)
+    const { categories, categorySearchTerms, setCategorySearchTerms } = useContext(CategoryContext)
+    const { sources, sourceSearchTerms, setSourceSearchTerms } = useContext(SourceContext)
     const { types } = useContext(TypeContext)
     const activeUser = parseInt(localStorage.getItem("takeaways_user"))
     const filteredTakeaways = takeaways.filter(takeaway => takeaway.userId === activeUser)
@@ -35,6 +37,10 @@ export const TakeawayList = ({ sourceSearchTerms, categorySearchTerms }) => {
     useEffect(() => {
         setFilterBarTakeaways(filteredTakeaways)
     }, [takeaways])
+
+    useEffect(() => {
+        setSourceSearchTerms("")
+    }, [])
 
 
     useEffect(() => {
@@ -63,11 +69,11 @@ export const TakeawayList = ({ sourceSearchTerms, categorySearchTerms }) => {
         if (categorySearchTerms !== "") {
 
             const filteredCategories = categories.filter((c) => c.category.toLowerCase().includes(categorySearchTerms)) || []
-            const filteredTakeawayCategories = takeawaysCategories.filter(taca => filteredCategories.some(fc => taca.categoryId === fc.id) ? true : false)  || []
+            const filteredTakeawayCategories = takeawaysCategories.filter(taca => filteredCategories.some(fc => taca.categoryId === fc.id) ? true : false) || []
 
             let categoryFilteredTakeaways = filteredTakeaways.filter(tak => {
 
-                if (filteredTakeawayCategories.some(ftc => ftc.takeawayId  === tak.id)) {
+                if (filteredTakeawayCategories.some(ftc => ftc.takeawayId === tak.id)) {
                     return true
                 }
                 else {
@@ -86,11 +92,11 @@ export const TakeawayList = ({ sourceSearchTerms, categorySearchTerms }) => {
         if (categorySearchTerms !== "" && sourceSearchTerms !== "") {
 
             const filteredCategories = categories.filter((c) => c.category.toLowerCase().includes(categorySearchTerms)) || []
-            const filteredTakeawayCategories = takeawaysCategories.filter(taca => filteredCategories.some(fc => taca.categoryId === fc.id) ? true : false)  || []
+            const filteredTakeawayCategories = takeawaysCategories.filter(taca => filteredCategories.some(fc => taca.categoryId === fc.id) ? true : false) || []
 
             let categoryFilteredTakeaways = filteredTakeaways.filter(tak => {
 
-                if (filteredTakeawayCategories.some(ftc => ftc.takeawayId  === tak.id)) {
+                if (filteredTakeawayCategories.some(ftc => ftc.takeawayId === tak.id)) {
                     return true
                 }
                 else {
@@ -108,7 +114,7 @@ export const TakeawayList = ({ sourceSearchTerms, categorySearchTerms }) => {
 
             })
 
-            let sourceAndCategoryFilteredTakeaways = categoryFilteredTakeaways.filter(cft=> sourceFilteredTakeaways.filter(sft=> sft.id === cft.id))
+            let sourceAndCategoryFilteredTakeaways = categoryFilteredTakeaways.filter(cft => sourceFilteredTakeaways.filter(sft => sft.id === cft.id))
             setFilterBarTakeaways(sourceAndCategoryFilteredTakeaways)
         }
 
@@ -118,38 +124,46 @@ export const TakeawayList = ({ sourceSearchTerms, categorySearchTerms }) => {
 
     return (
         <>
+            <div className="searchContainer">
+                <div className="searchContainer__sources" >
+                    <SourceSearchBar />
+                </div>
+                <div className="searchContainer__categories" >
+                    <CategorySearchBar />
+                </div>
+            </div>
             <h2 className="listHeader">Takeaways</h2>
-        <div className="buttonContainer">
-<div className="editSourcesCategoriesContainer">
+            <div className="buttonContainer">
+                <div className="editSourcesCategoriesContainer">
 
-            <button className ="button" id="manageCategories" onClick={() => {
-                // check if the user is authenticated
-                const userId = localStorage.getItem("takeaways_user")
-                if (userId) {
-                    
-                    toggleCategories()
-                }
-            }}>Manage Categories</button>
-            <button className ="button" id="manageSources" onClick={() => {
-                // check if the user is authenticated
-                const userId = localStorage.getItem("takeaways_user")
-                if (userId) {
-                    
-                    toggleSources()
-                }
-            }}>Manage Sources</button>
-            </div>
-            <div className="addNewButtonContainer">
-            <button className ="button addNewButton" id="addNew" onClick={() => {
-                
-                // check if the user is authenticated
-                const userId = localStorage.getItem("takeaways_user")
-                if (userId) {
-                    
-                    toggle()
-                }
-            }}>New Takeaway</button>
-            </div>
+                    <button className="button" id="manageCategories" onClick={() => {
+                        // check if the user is authenticated
+                        const userId = localStorage.getItem("takeaways_user")
+                        if (userId) {
+
+                            toggleCategories()
+                        }
+                    }}>Manage Categories</button>
+                    <button className="button" id="manageSources" onClick={() => {
+                        // check if the user is authenticated
+                        const userId = localStorage.getItem("takeaways_user")
+                        if (userId) {
+
+                            toggleSources()
+                        }
+                    }}>Manage Sources</button>
+                </div>
+                <div className="addNewButtonContainer">
+                    <button className="button addNewButton" id="addNew" onClick={() => {
+
+                        // check if the user is authenticated
+                        const userId = localStorage.getItem("takeaways_user")
+                        if (userId) {
+
+                            toggle()
+                        }
+                    }}>New Takeaway</button>
+                </div>
             </div>
             <ul className="takeaways">
                 {
@@ -158,8 +172,8 @@ export const TakeawayList = ({ sourceSearchTerms, categorySearchTerms }) => {
                         const activeUserCategories = categories.filter((category) => category.userId === activeUser) || {}
                         const matchingSource = sources.find(source => takeaway.sourceId === source.id) || {}
                         const matchingType = types.find(type => type.id === matchingSource.typeId) || {}
-                        const matchingTakeawayCategories = takeawaysCategories.filter(takeawayCategory => takeawayCategory.takeawayId === takeaway.id) || {}
-                        const relatedCategories = matchingTakeawayCategories.map((mtc) => activeUserCategories.find((cat) => cat.id === mtc.categoryId)) || []
+                        const matchingTakeawayCategories = takeawaysCategories.filter(takeawayCategory => takeawayCategory.takeawayId === takeaway.id) || []
+                        const relatedCategories = matchingTakeawayCategories.map((mtc) => activeUserCategories.find((cat) => cat.id === mtc.categoryId)) || {}
                         return <Takeaway
                             key={takeaway.id}
                             takeaway={takeaway}

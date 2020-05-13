@@ -7,6 +7,8 @@ import { SourceContext } from "../sources/SourceProvider"
 import { TypeContext } from "../type/TypeProvider"
 import { TakeawaysCategoriesContext } from "../categories/TakeawaysCategoriesProvider"
 import { FollowingContext } from "./FollowingProvider"
+import { CategorySearchBar } from "../search/CategorySearBar"
+import { SourceSearchBar } from "../search/SourceSearchBar"
 
 export const FollowingTakeawayList = ({ sourceSearchTerms, categorySearchTerms, followingRelationships }) => {
 
@@ -17,12 +19,14 @@ export const FollowingTakeawayList = ({ sourceSearchTerms, categorySearchTerms, 
     const { types } = useContext(TypeContext)
     const activeUser = parseInt(localStorage.getItem("takeaways_user"))
     const { following } = useContext(FollowingContext)
-    const peopleIFollow = following.filter(fol=> fol.followerId === activeUser)
+    const peopleIFollow = following.filter(fol => fol.followerId === activeUser)
 
-    const filteredTakeawaysFollowing = takeaways.filter(takeaway => peopleIFollow.some(pif=> pif.followedId === takeaway.userId) ? true : false)
-  
+    const filteredTakeawaysFollowing = takeaways.filter(takeaway => peopleIFollow.some(pif => pif.followedId === takeaway.userId) ? true : false)
 
 
+    // useEffect(() => {
+    //     setSourceSearchTerms("")
+    // }, [])
 
     // useEffect(() => {
     //     setFilterBarTakeaways(filteredTakeaways)
@@ -111,7 +115,7 @@ export const FollowingTakeawayList = ({ sourceSearchTerms, categorySearchTerms, 
     //     [categorySearchTerms, sourceSearchTerms]
     // )
 
-    if(filteredTakeawaysFollowing === []){
+    if (filteredTakeawaysFollowing === []) {
         return (
             <div className="notFollowingMessage">You are not currently following anyone. Checkout our users page to find people to follow!</div>
         )
@@ -119,32 +123,40 @@ export const FollowingTakeawayList = ({ sourceSearchTerms, categorySearchTerms, 
 
     else {
 
-    return (
-        <>
-            <h2 className="listHeader">Following Takeaways</h2>
+        return (
+            <>
+                <div className="searchContainer">
+                    <div className="searchContainer__sources" >
+                        <SourceSearchBar />
+                    </div>
+                    <div className="searchContainer__categories" >
+                        <CategorySearchBar />
+                    </div>
+                </div>
+                <h2 className="listHeader">Following Takeaways</h2>
 
-            <ul className="followingTakeaways">
-                {
-                    filteredTakeawaysFollowing.map(takeaway => {
+                <ul className="followingTakeaways">
+                    {
+                        filteredTakeawaysFollowing.map(takeaway => {
 
-                        const followedUserCategories = categories.filter((category) => category.userId === takeaway.userId) || {}
-                        const matchingSource = sources.find(source => takeaway.sourceId === source.id) || {}
-                        const matchingType = types.find(type => type.id === matchingSource.typeId) || {}
-                        const matchingTakeawayCategories = takeawaysCategories.filter(takeawayCategory => takeawayCategory.takeawayId === takeaway.id) || {}
-                        const relatedCategories = matchingTakeawayCategories.map((mtc) => followedUserCategories.find((cat) => cat.id === mtc.categoryId)) || []
-                        return <FollowingTakeaway
-                            key={takeaway.id}
-                            takeaway={takeaway}
-                            categories={relatedCategories}
-                            source={matchingSource}
-                            type={matchingType}
-                        />
-                    })
-                }
-            </ul>
+                            const followedUserCategories = categories.filter((category) => category.userId === takeaway.userId) || {}
+                            const matchingSource = sources.find(source => takeaway.sourceId === source.id) || {}
+                            const matchingType = types.find(type => type.id === matchingSource.typeId) || {}
+                            const matchingTakeawayCategories = takeawaysCategories.filter(takeawayCategory => takeawayCategory.takeawayId === takeaway.id) || {}
+                            const relatedCategories = matchingTakeawayCategories.map((mtc) => followedUserCategories.find((cat) => cat.id === mtc.categoryId)) || []
+                            return <FollowingTakeaway
+                                key={takeaway.id}
+                                takeaway={takeaway}
+                                categories={relatedCategories}
+                                source={matchingSource}
+                                type={matchingType}
+                            />
+                        })
+                    }
+                </ul>
 
-        </>
+            </>
 
-    )
-            }
+        )
+    }
 }
