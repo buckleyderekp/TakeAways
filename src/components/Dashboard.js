@@ -20,23 +20,23 @@ export const Dashboard = () => {
 
     const [activeList, setActiveList] = useState("takeaways")
 
-    
+
     const [components, setComponents] = useState()
 
     const showTakeaways = () => (
-            <TakeawayList />
-        )
-    
+        <TakeawayList />
+    )
+
 
     const showFollowingTakeaways = () => (
-            <FollowingTakeawayList />
-        )
-    
+        <FollowingTakeawayList />
+    )
+
 
     const showUsers = () => (
-            <UserList />
-        )
-    
+        <UserList />
+    )
+
 
     useEffect(() => {
         if (activeList === "takeaways") {
@@ -51,32 +51,32 @@ export const Dashboard = () => {
     }, [activeList])
 
     return (
-        <FollowingProvider>
-            <TakeawayProvider>
-                <CategoryProvider>
-                    <SourceProvider>
-                        <TypeProvider>
-                            <TakeawaysCategoryProvider>
-                                <FollowingProvider>
-                                    <UserProvider>
+        <CategoryProvider>
+            <FollowingProvider>
+                <SourceProvider>
+                    <TypeProvider>
+                        <TakeawaysCategoryProvider>
+                            <FollowingProvider>
+                                <UserProvider>
+                                    <TakeawayProvider>
                                         <div className="mainContainer">
                                             <header className="header">
                                                 <div className="logo"></div>
                                                 <div className="nav">
-                                                    <div className="nav__takeaways navHeader" onClick={() => setActiveList("takeaways") }>Takeaways</div>
-                                                    <div className="nav__followingTakeaways navHeader" onClick={() => setActiveList("followingTakeaways") }>Following Takeaways</div>
-                                                    <div className="nav__users navHeader" onClick={() => setActiveList("users") }>Users</div>
+                                                    <div className="nav__takeaways navHeader" onClick={() => setActiveList("takeaways")}>Takeaways</div>
+                                                    <div className="nav__followingTakeaways navHeader" onClick={() => setActiveList("followingTakeaways")}>Following Takeaways</div>
+                                                    <div className="nav__users navHeader" onClick={() => setActiveList("users")}>Users</div>
                                                 </div>
                                             </header>
                                             <div className="listContainer">{components}</div>
                                         </div>
-                                    </UserProvider>
-                                </FollowingProvider>
-                            </TakeawaysCategoryProvider>
-                        </TypeProvider>
-                    </SourceProvider>
-                </CategoryProvider>
-            </TakeawayProvider>
-        </FollowingProvider>
+                                    </TakeawayProvider>
+                                </UserProvider>
+                            </FollowingProvider>
+                        </TakeawaysCategoryProvider>
+                    </TypeProvider>
+                </SourceProvider>
+            </FollowingProvider>
+        </CategoryProvider>
     )
 }

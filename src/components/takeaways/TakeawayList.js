@@ -173,7 +173,7 @@ export const TakeawayList = () => {
                         const matchingSource = sources.find(source => takeaway.sourceId === source.id) || {}
                         const matchingType = types.find(type => type.id === matchingSource.typeId) || {}
                         const matchingTakeawayCategories = takeawaysCategories.filter(takeawayCategory => takeawayCategory.takeawayId === takeaway.id) || []
-                        const relatedCategories = matchingTakeawayCategories.map((mtc) => activeUserCategories.find((cat) => cat.id === mtc.categoryId)) || {}
+                        const relatedCategories = matchingTakeawayCategories.map((mtc) => activeUserCategories.find((cat) => cat.id === mtc.categoryId)) || []
                         return <Takeaway
                             key={takeaway.id}
                             takeaway={takeaway}

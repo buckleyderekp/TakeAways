@@ -9,115 +9,103 @@ import { TakeawaysCategoriesContext } from "../categories/TakeawaysCategoriesPro
 import { FollowingContext } from "./FollowingProvider"
 import { CategorySearchBar } from "../search/CategorySearBar"
 import { SourceSearchBar } from "../search/SourceSearchBar"
+import { UserContext } from "../users/UserProvider"
 
-export const FollowingTakeawayList = ({ sourceSearchTerms, categorySearchTerms, followingRelationships }) => {
 
-    const { takeaways, filterBarTakeaways, setFilterBarTakeaways } = useContext(TakeawayContext)
+export const FollowingTakeawayList = () => {
+
+    const { takeaways, filteredTakeawaysFollowing, setFilteredTakeawaysFollowing } = useContext(TakeawayContext)
     const { takeawaysCategories } = useContext(TakeawaysCategoriesContext)
-    const { categories } = useContext(CategoryContext)
-    const { sources } = useContext(SourceContext)
+    const { categories, categorySearchTerms, setCategorySearchTerms } = useContext(CategoryContext)
+    const { sources, sourceSearchTerms, setSourceSearchTerms } = useContext(SourceContext)
+    const { users, filteredUsers, setFilteredUsers } = useContext(UserContext)
     const { types } = useContext(TypeContext)
     const activeUser = parseInt(localStorage.getItem("takeaways_user"))
     const { following } = useContext(FollowingContext)
     const peopleIFollow = following.filter(fol => fol.followerId === activeUser)
-
-    const filteredTakeawaysFollowing = takeaways.filter(takeaway => peopleIFollow.some(pif => pif.followedId === takeaway.userId) ? true : false)
-
-
-    // useEffect(() => {
-    //     setSourceSearchTerms("")
-    // }, [])
-
-    // useEffect(() => {
-    //     setFilterBarTakeaways(filteredTakeaways)
-    // }, [])
-    // useEffect(() => {
-    //     setFilterBarTakeaways(filteredTakeaways)
-    // }, [takeaways])
+    
+    const takeawaysFollowing = takeaways.filter(takeaway => peopleIFollow.some(pif => pif.followedId === takeaway.userId) ? true : false)
+  
 
 
-    // useEffect(() => {
-    //     if (sourceSearchTerms !== "") {
-    //         let sourceFilteredTakeaways = filteredTakeaways.filter(tak => {
+    useEffect(() => {
+        setSourceSearchTerms("")
+    }, [])
 
-    //             if (sources.some(s => s.source.toLowerCase().includes(sourceSearchTerms) && s.id === tak.sourceId)) {
-    //                 return true
-    //             }
-    //             else {
-    //                 return false
-    //             }
+    useEffect(() => {
+        setCategorySearchTerms("")
+    }, [])
 
-    //         })
-    //         console.log(filterBarTakeaways)
-    //         setFilterBarTakeaways(sourceFilteredTakeaways)
+    useEffect(() => {
+        setFilteredTakeawaysFollowing(filteredTakeawaysFollowing)
+    }, [])
 
-    //     }
-    //     else {
-    //         setFilterBarTakeaways(filteredTakeaways)
-    //     }
-    // },
-    //     [sourceSearchTerms]
-    // )
-    // useEffect(() => {
-    //     if (categorySearchTerms !== "") {
+    useEffect(() => {
+        setFilteredTakeawaysFollowing(filteredTakeawaysFollowing)
+    }, [takeaways])
 
-    //         const filteredCategories = categories.filter((c) => c.category.toLowerCase().includes(categorySearchTerms)) || []
-    //         const filteredTakeawayCategories = takeawaysCategories.filter(taca => filteredCategories.some(fc => taca.categoryId === fc.id) ? true : false)  || []
 
-    //         let categoryFilteredTakeaways = filteredTakeaways.filter(tak => {
+    useEffect(() => {
+        if (sourceSearchTerms !== "") {
+            let sourceFilteredTakeawaysFollowing = filteredTakeawaysFollowing.filter(ftf => {
 
-    //             if (filteredTakeawayCategories.some(ftc => ftc.takeawayId  === tak.id)) {
-    //                 return true
-    //             }
-    //             else {
-    //                 return false
-    //             }
-    //         })
-    //         setFilterBarTakeaways(categoryFilteredTakeaways)
-    //     }
-    //     else {
-    //         setFilterBarTakeaways(filteredTakeaways)
-    //     }
-    // },
-    //     [categorySearchTerms]
-    // )
-    // useEffect(() => {
-    //     if (categorySearchTerms !== "" && sourceSearchTerms !== "") {
+                if (sources.some(s => s.source.toLowerCase().includes(sourceSearchTerms) && s.id === ftf.sourceId)) {
+                    return true
+                }
+                else {
+                    return false
+                }
 
-    //         const filteredCategories = categories.filter((c) => c.category.toLowerCase().includes(categorySearchTerms)) || []
-    //         const filteredTakeawayCategories = takeawaysCategories.filter(taca => filteredCategories.some(fc => taca.categoryId === fc.id) ? true : false)  || []
+            })
+            setFilteredTakeawaysFollowing(sourceFilteredTakeawaysFollowing)
 
-    //         let categoryFilteredTakeaways = filteredTakeaways.filter(tak => {
+        }
+        else {
+            setFilteredTakeawaysFollowing(takeawaysFollowing)
+        }
+    },
+        [sourceSearchTerms]
+    )
 
-    //             if (filteredTakeawayCategories.some(ftc => ftc.takeawayId  === tak.id)) {
-    //                 return true
-    //             }
-    //             else {
-    //                 return false
-    //             }
-    //         })
-    //         let sourceFilteredTakeaways = filteredTakeaways.filter(tak => {
+    useEffect(() => {
+        if (categorySearchTerms !== "") {
 
-    //             if (sources.some(s => s.source.toLowerCase().includes(sourceSearchTerms) && s.id === tak.sourceId)) {
-    //                 return true
-    //             }
-    //             else {
-    //                 return false
-    //             }
+            const filteredCategories = categories.filter((c) => c.category.toLowerCase().includes(categorySearchTerms)) || []
+            const filteredTakeawayCategories = takeawaysCategories.filter(taca => filteredCategories.some(fc => taca.categoryId === fc.id) ? true : false)  || []
 
-    //         })
+            let categoryFilteredTakeawaysFollowing = takeawaysFollowing.filter(tak => {
 
-    //         let sourceAndCategoryFilteredTakeaways = categoryFilteredTakeaways.filter(cft=> sourceFilteredTakeaways.filter(sft=> sft.id === cft.id))
-    //         setFilterBarTakeaways(sourceAndCategoryFilteredTakeaways)
-    //     }
+                if (filteredTakeawayCategories.some(ftc => ftc.takeawayId  === tak.id)) {
+                    return true
+                }
+                else {
+                    return false
+                }
+            })
+            setFilteredTakeawaysFollowing(categoryFilteredTakeawaysFollowing)
+        }
+        else {
+            setFilteredTakeawaysFollowing(takeawaysFollowing)
+        }
+    },
+        [categorySearchTerms]
+    )
 
-    // },
-    //     [categorySearchTerms, sourceSearchTerms]
-    // )
 
-    if (filteredTakeawaysFollowing === []) {
+    if (!takeawaysFollowing.length) {
         return (
-            <div className="notFollowingMessage">You are not currently following anyone. Checkout our users page to find people to follow!</div>
+            <>
+            <div className="searchContainer">
+            <div className="searchContainer__sources" >
+                <SourceSearchBar />
+            </div>
+            <div className="searchContainer__categories" >
+                <CategorySearchBar />
+            </div>
+        </div>
+        <h2 className="listHeader">Following Takeaways</h2>
+           <div className="notFollowingMessage">You are not currently following anyone. Checkout our users page to find people to follow!</div>
+           </>
         )
     }
 
@@ -138,7 +126,7 @@ export const FollowingTakeawayList = ({ sourceSearchTerms, categorySearchTerms, 
                 <ul className="followingTakeaways">
                     {
                         filteredTakeawaysFollowing.map(takeaway => {
-
+                            const userForThisTakeAway = users.find(user => user.id === takeaway.userId)
                             const followedUserCategories = categories.filter((category) => category.userId === takeaway.userId) || {}
                             const matchingSource = sources.find(source => takeaway.sourceId === source.id) || {}
                             const matchingType = types.find(type => type.id === matchingSource.typeId) || {}
@@ -150,6 +138,7 @@ export const FollowingTakeawayList = ({ sourceSearchTerms, categorySearchTerms, 
                                 categories={relatedCategories}
                                 source={matchingSource}
                                 type={matchingType}
+                                user={userForThisTakeAway}
                             />
                         })
                     }
