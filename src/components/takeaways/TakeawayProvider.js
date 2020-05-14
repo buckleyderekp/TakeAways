@@ -8,6 +8,7 @@ export const TakeawayProvider = (props) => {
 
     const [takeaways, setTakeaways] = useState([])
     const [filterBarTakeaways, setFilterBarTakeaways] = useState([])
+const [ filteredTakeawaysFollowing, setFilteredTakeawaysFollowing] = useState ([])
 
 
 
@@ -32,7 +33,6 @@ export const TakeawayProvider = (props) => {
         .then((res) => {
             getTakeaways()
             const finalObject =res
-            console.log(finalObject)
             return finalObject})
     }
 
@@ -67,7 +67,9 @@ export const TakeawayProvider = (props) => {
                 deleteTakeaway,
                 updateTakeaway,
                 setFilterBarTakeaways,
-                filterBarTakeaways
+                filterBarTakeaways,
+                filteredTakeawaysFollowing,
+                setFilteredTakeawaysFollowing
             }
         }>
             {props.children}

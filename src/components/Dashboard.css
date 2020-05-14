@@ -1,6 +1,7 @@
 .mainContainer{
     background-color: #a6a6a6;
     height: 100%;
+    padding-bottom: 50em;
 }
 
 .searchContainer{
@@ -30,6 +31,25 @@
     font-weight: bolder;
     font-size: larger;
     margin-top: 2em;
+}
+
+.nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.navHeader{
+    color: #133460;
+    font-size: 1.75em;
+    font-weight: bolder;
+}
+
+body{
+    background-color: #a6a6a6;
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
 }
 
 

@@ -7,6 +7,7 @@ export const CategoryProvider = (props) => {
 
     const [categories, setCategories] = useState([])
     const [currentCategory, setCurrentCategory] = useState({})
+    const [categorySearchTerms, setCategorySearchTerms] = useState("")
 
     const getCategories = () => {
         return fetch("http://localhost:8088/categories")
@@ -62,7 +63,9 @@ export const CategoryProvider = (props) => {
                 deleteCategory,
                 updateCategory,
                 currentCategory,
-                setCurrentCategory
+                setCurrentCategory,
+                setCategorySearchTerms,
+                categorySearchTerms
             }
         }>
             {props.children}

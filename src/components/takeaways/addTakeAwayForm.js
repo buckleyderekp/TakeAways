@@ -142,8 +142,6 @@ export const AddTakeAwayForm = (props) => {
         addTakeaway(newTakeawayObject)
         .then((res) => {
            setCurrentTakeawayId(res.id)
-           console.log(res.id)
-           console.log(currentTakeawayId)
         })
         .then(props.toggler)
     }

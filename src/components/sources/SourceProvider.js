@@ -9,6 +9,7 @@ export const SourceProvider = (props) => {
 
     const [sources, setSources] = useState([])
     const [currentSource, setCurrentSource] = useState({})
+    const [sourceSearchTerms, setSourceSearchTerms] = useState("")
     
 
     const getSources = () => {
@@ -65,7 +66,9 @@ export const SourceProvider = (props) => {
                 deleteSource,
                 updateSource,
                 currentSource,
-                setCurrentSource
+                setCurrentSource,
+                setSourceSearchTerms,
+                sourceSearchTerms
             }
         }>
             {props.children}
