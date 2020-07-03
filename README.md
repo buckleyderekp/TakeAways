@@ -1,3 +1,27 @@
+## Takeaways
+
+Takeaways was my front end capstone project at Nashville Software School. It was designed with avid readers, researchers and lifelong learners in mind. Built with react 
+this app gives the user the ability to save pieces of information, assign it a source and as many categories as needed so that it is searchable later. A user is also able 
+to look for other users by the sources and categories they have entered and follow them to see their entries. 
+
+### To run project
+
+1. Clone repo to your machine
+2. Clone JSON file in Takeaways-API repo https://github.com/buckleyderekp/TakeAways-api
+3. if you do not have json serve installed you will need to install it using the command: 
+``` bash
+npm install -g json-server
+```
+4. In one terminal CD to api directory and run JSON server to port 8088 using command: 
+``` bash 
+json-server -p 8088 -w database.json
+```
+5. In another terminal window CD to Takeaways directory and begin application using the comman: 
+``` bash 
+npm start
+```
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
