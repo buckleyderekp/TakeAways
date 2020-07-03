@@ -12,9 +12,9 @@ to look for other users by the sources and categories they have entered and foll
 ``` bash
 npm install -g json-server
 ```
-4. In one terminal CD to api directory and run JSON server to port 5000 using command: 
+4. In one terminal CD to api directory and run JSON server to port 8088 using command: 
 ``` bash 
-json-server -p 5000 -w database.json
+json-server -p 8088 -w database.json
 ```
 5. In another terminal window CD to Takeaways directory and begin application using the comman: 
 ``` bash 
