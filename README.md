@@ -9,7 +9,7 @@ to look for other users by the sources and categories they have entered and foll
 1. Clone repo to your machine
 2. Clone JSON file in Takeaways-API repo https://github.com/buckleyderekp/TakeAways-api
 3. if you do not have json serve installed you will need to install it using the command: npm install -g json-server
-4. In one terminal CD to api directory and run JSON server to port 5000 using command: json-server database.json --port 5000
+4. In one terminal CD to api directory and run JSON server to port 5000 using command: json-server -p 5000 -w database.json
 5. In another terminal window CD to Takeaways directory and begin application using the comman: npm start
 
 
