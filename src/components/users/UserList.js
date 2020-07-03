@@ -1,10 +1,12 @@
-import React, { useContext, useState, useEffect } from "react"
+//The purpose of this component is to list all of the users 
+
+import React, { useContext, useEffect } from "react"
 import { UserContext } from "./UserProvider"
 import { SourceContext } from "../sources/SourceProvider"
 import { User } from "./User"
 import "./UserList.css"
-import { CategorySearchBar }  from "../search/CategorySearBar"
-import { SourceSearchBar }  from "../search/SourceSearchBar"
+import { CategorySearchBar } from "../search/CategorySearBar"
+import { SourceSearchBar } from "../search/SourceSearchBar"
 import { CategoryContext } from "../categories/CategoryProvider"
 
 
@@ -62,7 +64,7 @@ export const UserList = () => {
     useEffect(() => {
         if (categorySearchTerms !== "") {
 
-          
+
 
             let categoryFilteredUsers = usersToDisplay.filter(utd => {
 

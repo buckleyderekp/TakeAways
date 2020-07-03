@@ -1,3 +1,5 @@
+// the purpose of this component is to interact with the takeaway section of the database. 
+
 import React, { useState, useEffect } from "react"
 
 
@@ -8,7 +10,7 @@ export const TakeawayProvider = (props) => {
 
     const [takeaways, setTakeaways] = useState([])
     const [filterBarTakeaways, setFilterBarTakeaways] = useState([])
-const [ filteredTakeawaysFollowing, setFilteredTakeawaysFollowing] = useState ([])
+    const [filteredTakeawaysFollowing, setFilteredTakeawaysFollowing] = useState([])
 
 
 
@@ -26,14 +28,15 @@ const [ filteredTakeawaysFollowing, setFilteredTakeawaysFollowing] = useState ([
             },
             body: JSON.stringify(takeaway)
         })
-        .then((res) => {
-            const createdTakeaway = res.json()
-            return createdTakeaway
-        })
-        .then((res) => {
-            getTakeaways()
-            const finalObject =res
-            return finalObject})
+            .then((res) => {
+                const createdTakeaway = res.json()
+                return createdTakeaway
+            })
+            .then((res) => {
+                getTakeaways()
+                const finalObject = res
+                return finalObject
+            })
     }
 
     const deleteTakeaway = takeawayId => {

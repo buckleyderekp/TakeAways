@@ -1,3 +1,5 @@
+// purpose of this component is to interact with the Category section of the database
+
 import React, { useState, useEffect } from "react"
 
 export const CategoryContext = React.createContext()
@@ -23,13 +25,13 @@ export const CategoryProvider = (props) => {
             },
             body: JSON.stringify(category)
         })
-        .then(res => res.json())
-        .then((res) => {
-            const createdCategory = res
-            getCategories()
-            console.log(createdCategory)
-            return createdCategory
-        })
+            .then(res => res.json())
+            .then((res) => {
+                const createdCategory = res
+                getCategories()
+                console.log(createdCategory)
+                return createdCategory
+            })
     }
 
     const deleteCategory = categoryId => {

@@ -1,6 +1,8 @@
+//The purpose of this component is to filter and list the Takeaways for the current user. It is also the default list to be displayed when a user logs in
+
 import React, { useContext, useState, useEffect } from "react"
 import { TakeawayContext } from "./TakeawayProvider"
-import { Button, Modal, ModalBody, ModalHeader } from "reactstrap"
+import { Modal, ModalBody, ModalHeader } from "reactstrap"
 import { Takeaway } from "./Takeaway"
 import { CategoryContext } from "../categories/CategoryProvider"
 import { EditCategoriesForm } from "../categories/manageCategoriesModal"
@@ -18,7 +20,7 @@ export const TakeawayList = () => {
 
     const { takeaways, filterBarTakeaways, setFilterBarTakeaways } = useContext(TakeawayContext)
     const { takeawaysCategories } = useContext(TakeawaysCategoriesContext)
-    const { categories, categorySearchTerms, setCategorySearchTerms } = useContext(CategoryContext)
+    const { categories, categorySearchTerms } = useContext(CategoryContext)
     const { sources, sourceSearchTerms, setSourceSearchTerms } = useContext(SourceContext)
     const { types } = useContext(TypeContext)
     const activeUser = parseInt(localStorage.getItem("takeaways_user"))
@@ -42,7 +44,7 @@ export const TakeawayList = () => {
         setSourceSearchTerms("")
     }, [])
 
-
+    // This effect hook filters the takeaway object based off of the sourceSearchTerms that a user has inputted
     useEffect(() => {
         if (sourceSearchTerms !== "") {
             let sourceFilteredTakeaways = filteredTakeaways.filter(tak => {
@@ -65,6 +67,8 @@ export const TakeawayList = () => {
     },
         [sourceSearchTerms]
     )
+
+    //This effect hook filters the takeaways for the current user based on the category search terms that a user has inputted
     useEffect(() => {
         if (categorySearchTerms !== "") {
 
@@ -88,6 +92,8 @@ export const TakeawayList = () => {
     },
         [categorySearchTerms]
     )
+
+    // This effect hook filters the takeaways by both category and source search terms that a user has inputted
     useEffect(() => {
         if (categorySearchTerms !== "" && sourceSearchTerms !== "") {
 

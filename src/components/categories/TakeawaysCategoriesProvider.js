@@ -1,3 +1,6 @@
+//This component handles interacting with the TakeawaysCategory section of the API which holds the information regarding the relationship between the 
+//main takeaway object and a category object. 
+
 import React, { useState, useEffect } from "react"
 
 export const TakeawaysCategoriesContext = React.createContext()
@@ -6,7 +9,7 @@ export const TakeawaysCategoriesContext = React.createContext()
 export const TakeawaysCategoryProvider = (props) => {
 
     const [takeawaysCategories, setTakeawaysCategories] = useState([])
-    
+
 
     const getTakeawaysCategories = () => {
         return fetch("http://localhost:8088/takeawaysCategories")
@@ -22,12 +25,12 @@ export const TakeawaysCategoryProvider = (props) => {
             },
             body: JSON.stringify(TakeawaysCategory)
         })
-        .then(res => res.json())
-        .then((res) => {
-            const createdTakeawaysCategory = res
-            getTakeawaysCategories()
-            return createdTakeawaysCategory
-        })
+            .then(res => res.json())
+            .then((res) => {
+                const createdTakeawaysCategory = res
+                getTakeawaysCategories()
+                return createdTakeawaysCategory
+            })
     }
 
     const deleteTakeawaysCategory = takeawaysCategoryId => {

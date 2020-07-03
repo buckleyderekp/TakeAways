@@ -1,3 +1,5 @@
+// The puspose of this component is to interact with the user portion of the database. 
+
 import React, { useState, useEffect } from "react"
 
 
@@ -10,7 +12,7 @@ export const UserProvider = (props) => {
     const [users, setUsers] = useState([])
     const [currentUser, setCurrentUser] = useState({})
     const [filteredUsers, setFilteredUsers] = useState([])
-    
+
 
     const getUsers = () => {
         return fetch("http://localhost:8088/users")
@@ -26,12 +28,12 @@ export const UserProvider = (props) => {
             },
             body: JSON.stringify(user)
         })
-        .then(res => res.json())
-        .then((res) => {
-            const createdUser = res
-            getUsers()
-            return createdUser
-        })
+            .then(res => res.json())
+            .then((res) => {
+                const createdUser = res
+                getUsers()
+                return createdUser
+            })
     }
 
     const deleteUser = userId => {

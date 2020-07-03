@@ -1,3 +1,6 @@
+// The purpose of this component is to control which list is displayed on the screen based off of user interaction
+
+
 import React, { useState, useEffect, useContext } from "react"
 import { TakeawayProvider } from "./takeaways/TakeawayProvider"
 import { TakeawayList } from "./takeaways/TakeawayList"
@@ -8,8 +11,6 @@ import { SourceProvider, SourceContext } from "./sources/SourceProvider"
 import { UserProvider } from "./users/UserProvider"
 import { TypeProvider } from "./type/TypeProvider"
 import { TakeawaysCategoryProvider } from "./categories/TakeawaysCategoriesProvider"
-import { CategorySearchBar } from "./search/CategorySearBar"
-import { SourceSearchBar } from "./search/SourceSearchBar"
 import "./Dashboard.css"
 import { FollowingProvider } from "./following/FollowingProvider"
 

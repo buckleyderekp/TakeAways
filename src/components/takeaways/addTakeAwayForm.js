@@ -1,3 +1,5 @@
+// This component is responsible for the adding new takeaway form
+
 import React, { useContext, useRef, useState, useEffect } from "react"
 import { TypeContext } from "../type/TypeProvider"
 import { SourceContext } from "../sources/SourceProvider"
@@ -6,9 +8,6 @@ import { CategoryContext } from "../categories/CategoryProvider"
 import { TakeawaysCategoriesContext } from "../categories/TakeawaysCategoriesProvider"
 import { Button, Input } from "reactstrap"
 import "./addTakeawayForm.css"
-
-
-
 
 
 export const AddTakeAwayForm = (props) => {
@@ -26,7 +25,7 @@ export const AddTakeAwayForm = (props) => {
     const [categoryDropdownSelection, setCategoryDropdownSelection] = useState(0)
     const [takeawaysCategories, setTakeawaysCategories] = useState([])
     const categoriesForThisTakeaway = takeawaysCategories.map((tak) => categories.find((cat) => cat.id === tak)) || []
-    
+
     const takeaway = useRef()
     const category = useRef()
     const type = useRef()
@@ -34,7 +33,7 @@ export const AddTakeAwayForm = (props) => {
     const newSource = useRef()
     const newCategory = useRef()
     const userId = parseInt(localStorage.getItem("takeaways_user"))
-    
+
     const sourcesForThisUser = sources.filter(s => s.userId === userId)
     const categoriesForThisUser = categories.filter(c => c.userId === userId)
     // this watches for changes in the state of sources and when there is a state change runs the function that sets the 
@@ -56,15 +55,15 @@ export const AddTakeAwayForm = (props) => {
 
     // this function maps over the array of categories the user has selected for a takeaway object
     // and for each item in the array constructs an object and puts the relationship in to the api
- const putNewCategoriesRelationship = () => {
-      takeawaysCategories.map((takcat) => {
-          const   newTakeCatObj = {
-                        takeawayId: parseInt(currentTakeawayId), 
-                        categoryId: takcat
-                    }
-                addTakeawaysCategory(newTakeCatObj)
-                }) 
- }
+    const putNewCategoriesRelationship = () => {
+        takeawaysCategories.map((takcat) => {
+            const newTakeCatObj = {
+                takeawayId: parseInt(currentTakeawayId),
+                categoryId: takcat
+            }
+            addTakeawaysCategory(newTakeCatObj)
+        })
+    }
 
 
 
@@ -84,7 +83,7 @@ export const AddTakeAwayForm = (props) => {
     // and sets the state variable for the dropdown selection as the id of the newly created source
     const addNewSourceToAPI = () => {
         if (sourceInput) {
-          
+
             const newSourceObject = {
                 source: newSource.current.value,
                 typeId: parseInt(type.current.value),
@@ -140,10 +139,10 @@ export const AddTakeAwayForm = (props) => {
             takeaway: takeaway.current.value
         }
         addTakeaway(newTakeawayObject)
-        .then((res) => {
-           setCurrentTakeawayId(res.id)
-        })
-        .then(props.toggler)
+            .then((res) => {
+                setCurrentTakeawayId(res.id)
+            })
+            .then(props.toggler)
     }
 
     // this function listens for the state of source input and when the user clicks "add new source" and the state variable
@@ -175,7 +174,7 @@ export const AddTakeAwayForm = (props) => {
                         <option key={e.id} value={e.id}>
                             {e.type}
                         </option>
-                    
+
                     ))}
                 </select>
                 <button className="button" type="submit"
@@ -186,7 +185,7 @@ export const AddTakeAwayForm = (props) => {
                             setSourceInput(false)
                         }
                     }
-                    >
+                >
                     Save Source
             </button>
             </div>
@@ -259,11 +258,11 @@ export const AddTakeAwayForm = (props) => {
                     {checkSourceInput()}
                     <div className="form-group">
 
-                        <label htmlFor="category">Choose an Existing Category</label>   
+                        <label htmlFor="category">Choose an Existing Category</label>
                         <div className="category__categoriesList">{categoriesForThisTakeaway.map((cat) => {
                             return `${cat.category}` || ""
-                        }).join(", ") 
-                    }</div>
+                        }).join(", ")
+                        }</div>
                         <select
                             defaultValue=""
                             name="category"
@@ -276,57 +275,57 @@ export const AddTakeAwayForm = (props) => {
                                 <option key={e.id} value={e.id}>
                                     {e.category}
                                 </option>
-                            ))} 
-                         </select>
-                    <button
-                        onClick={
-                            evt => {
-                                evt.preventDefault()
-                                putCategoryintoCategoryArray()
-                                setCategorySelected(true)
+                            ))}
+                        </select>
+                        <button
+                            onClick={
+                                evt => {
+                                    evt.preventDefault()
+                                    putCategoryintoCategoryArray()
+                                    setCategorySelected(true)
+                                }
                             }
-                        }
-                        className="button">
-                        Add Category to Takeaway
+                            className="button">
+                            Add Category to Takeaway
             </button>
-                    <button
-                        onClick={
-                            evt => {
-                                evt.preventDefault()
-                                setCategoryInput(true)
-                                
+                        <button
+                            onClick={
+                                evt => {
+                                    evt.preventDefault()
+                                    setCategoryInput(true)
+
+                                }
                             }
-                        }
-                        className="button">
-                        Create New Category
+                            className="button">
+                            Create New Category
             </button>
-                </div>
-                {checkCategoryInput()}
+                    </div>
+                    {checkCategoryInput()}
 
                 </div>
-            <div className="form-group">
-                <label htmlFor="takeaway">Takeaway: </label>
-                <Input
-                    type="textarea"
-                    id="takeawayInput"
-                    innerRef={takeaway}
-                    required
-                    autoFocus
-                    className="form-control"
-                    placeholder="I learned..."/>
+                <div className="form-group">
+                    <label htmlFor="takeaway">Takeaway: </label>
+                    <Input
+                        type="textarea"
+                        id="takeawayInput"
+                        innerRef={takeaway}
+                        required
+                        autoFocus
+                        className="form-control"
+                        placeholder="I learned..." />
 
-            </div>
+                </div>
             </fieldset>
 
-        <button type="submit"
-            onClick={
-                evt => {
-                    evt.preventDefault()
-                    constructNewTakeAway()
+            <button type="submit"
+                onClick={
+                    evt => {
+                        evt.preventDefault()
+                        constructNewTakeAway()
+                    }
                 }
-            }
-            className="button">
-            Save
+                className="button">
+                Save
             </button>
         </form >
     )

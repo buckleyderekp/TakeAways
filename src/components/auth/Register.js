@@ -7,7 +7,7 @@ const Register = props => {
     const email = useRef()
     const password = useRef()
     const verifyPassword = useRef()
-
+    //checks for existing user
     const existingUserCheck = () => {
         return fetch(`http://localhost:8088/users?email=${email.current.value}`)
             .then(_ => _.json())
@@ -21,7 +21,7 @@ const Register = props => {
 
     const handleRegister = (e) => {
         e.preventDefault()
-
+        //confirms that both password fields match and then adds user to the database
         if (password.current.value === verifyPassword.current.value) {
             existingUserCheck()
                 .then(() => {
@@ -45,10 +45,11 @@ const Register = props => {
                         })
                 })
         } else {
+            //only shows if passwords don't match
             window.alert("Passwords do not match")
         }
     }
-
+    //registration form
     return (
         <div className="container--login">
             <form className="form--register" onSubmit={handleRegister}>
@@ -59,7 +60,7 @@ const Register = props => {
                         name="firstName"
                         className="form-control"
                         placeholder="First name"
-                        required  />
+                        required />
                 </fieldset>
                 <fieldset>
                     <label htmlFor="lastName"> Last Name </label>

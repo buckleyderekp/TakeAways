@@ -1,13 +1,15 @@
-import React, { useContext, useRef, useState, useEffect } from "react"
+//The purpose of this module is to have a representation of a single takeaway object
+
+import React, { useContext, useState } from "react"
 import "./Takeaway.css"
 import { TakeawayContext } from "./TakeawayProvider"
 import { EditTakeAwayForm } from "./EditTakeawayForm"
-import { Button, Modal, ModalBody, ModalHeader } from "reactstrap"
+import { Modal, ModalBody, ModalHeader } from "reactstrap"
 
 
 export const Takeaway = ({ takeaway, source, type, categories }) => {
 
-    const { deleteTakeaway, updateTakeaway } = useContext(TakeawayContext)
+    const { deleteTakeaway } = useContext(TakeawayContext)
     const [modal, setModal] = useState(false)
     const toggle = () => setModal(!modal)
 
@@ -16,8 +18,8 @@ export const Takeaway = ({ takeaway, source, type, categories }) => {
             <div className="takeaway__source takeawayText">{source.source}</div>
             <div className="takeaway__sourceType takeawayText">Source Type: {type.type}</div>
             <div className="takeaway__categories takeawayText">Category: {categories.map((cat) => {
-                
-                return `${cat.category}` 
+
+                return `${cat.category}`
             }).join(", ") || []
             }
 
@@ -50,7 +52,7 @@ export const Takeaway = ({ takeaway, source, type, categories }) => {
                     Edit Takeaway
                 </ModalHeader>
                 <ModalBody>
-                    <EditTakeAwayForm toggler={toggle} takeawayObject={takeaway}/>
+                    <EditTakeAwayForm toggler={toggle} takeawayObject={takeaway} />
                 </ModalBody>
             </Modal>
 

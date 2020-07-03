@@ -1,7 +1,9 @@
+//The purpose of this component is define a single user object and how it will display in the browser
+
 import React, { useContext, useState, useEffect } from "react"
 import { FollowingContext } from "../following/FollowingProvider"
 import { UserModal } from "./UserProfileModal"
-import { Button, Modal, ModalBody, ModalHeader } from "reactstrap"
+import { Modal, ModalBody, ModalHeader } from "reactstrap"
 import "./User.css"
 
 
@@ -14,7 +16,6 @@ export const User = ({ user }) => {
     const toggleUserModal = () => setUserModal(!userModal)
     const [isFollowing, setIsFollowing] = useState(false)
     const [followToBeDeleted, setFollowToBeDeleted] = useState({})
-    const [userToBeUnfollowed, setUserToBeUnfollowed] = useState()
 
     const addNewFollowRelationship = () => {
         const newRelationship = {
@@ -29,7 +30,7 @@ export const User = ({ user }) => {
         if (following.find(fol => fol.followedId === user.id && fol.followerId === activeUser)) {
             setIsFollowing(true)
         }
-        else{
+        else {
             setIsFollowing(false)
         }
     }
@@ -55,7 +56,7 @@ export const User = ({ user }) => {
                         evt => {
                             evt.preventDefault()
                             addNewFollowRelationship()
-                            
+
                         }
                     }
                     className="button">
@@ -85,19 +86,19 @@ export const User = ({ user }) => {
                 <div className="user__name">{user.name}</div>
                 <div className="userButtonContainer">
 
-                <button
-                    onClick={
-                        evt => {
-                            evt.preventDefault()
-                            setSelectedUser(user)
-                            toggleUserModal()
+                    <button
+                        onClick={
+                            evt => {
+                                evt.preventDefault()
+                                setSelectedUser(user)
+                                toggleUserModal()
+                            }
                         }
-                    }
-                    className="button">
-                    User Profile
+                        className="button">
+                        User Profile
                              </button>
-                {followButton()}
-                    </div>
+                    {followButton()}
+                </div>
 
             </section>
             <Modal className="formModal" isOpen={userModal} toggle={toggleUserModal}>

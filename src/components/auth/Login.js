@@ -1,10 +1,12 @@
-import React, { useRef } from "react"
+//This component handles login of existing user. 
 
+import React, { useRef } from "react"
 
 const Login = props => {
     const email = useRef()
     const password = useRef()
 
+    //checks the user input to make sure email exists in the database 
     const existingUserCheck = () => {
         return fetch(`http://localhost:8088/users?email=${email.current.value}`)
             .then(_ => _.json())
@@ -18,7 +20,7 @@ const Login = props => {
 
     const handleLogin = (e) => {
         e.preventDefault()
-
+        //Checks to make sure the password matches if email is confirmed
         existingUserCheck()
             .then(exists => {
                 if (exists && exists.password === password.current.value) {
@@ -31,7 +33,7 @@ const Login = props => {
                 }
             })
     }
-
+    //input fields for login
     return (
         <div className="container--login">
             <form className="form--login" onSubmit={handleLogin}>

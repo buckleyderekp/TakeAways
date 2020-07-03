@@ -1,3 +1,5 @@
+//The purpose of this component is to interact with the type section of the database
+
 import React, { useState, useEffect } from "react"
 
 

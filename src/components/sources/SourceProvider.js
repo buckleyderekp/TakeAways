@@ -1,3 +1,5 @@
+// The purpose of this component is to intereact with the Source section of the database
+
 import React, { useState, useEffect } from "react"
 
 
@@ -10,7 +12,7 @@ export const SourceProvider = (props) => {
     const [sources, setSources] = useState([])
     const [currentSource, setCurrentSource] = useState({})
     const [sourceSearchTerms, setSourceSearchTerms] = useState("")
-    
+
 
     const getSources = () => {
         return fetch("http://localhost:8088/sources")
@@ -26,12 +28,12 @@ export const SourceProvider = (props) => {
             },
             body: JSON.stringify(source)
         })
-        .then(res => res.json())
-        .then((res) => {
-            const createdSource = res
-            getSources()
-            return createdSource
-        })
+            .then(res => res.json())
+            .then((res) => {
+                const createdSource = res
+                getSources()
+                return createdSource
+            })
     }
 
     const deleteSource = sourceId => {
