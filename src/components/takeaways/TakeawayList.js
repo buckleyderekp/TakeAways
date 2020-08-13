@@ -44,6 +44,8 @@ export const TakeawayList = () => {
         setSourceSearchTerms("")
     }, [])
 
+
+
     // This effect hook filters the takeaway object based off of the sourceSearchTerms that a user has inputted
     useEffect(() => {
         if (sourceSearchTerms !== "") {
@@ -127,94 +129,98 @@ export const TakeawayList = () => {
     },
         [categorySearchTerms, sourceSearchTerms]
     )
-
-    return (
-        <>
-            <div className="searchContainer">
-                <div className="searchContainer__sources" >
-                    <SourceSearchBar />
+    if (takeaways === undefined) {
+        return null
+    }
+    else {
+        return (
+            <>
+                <div className="searchContainer">
+                    <div className="searchContainer__sources" >
+                        <SourceSearchBar />
+                    </div>
+                    <div className="searchContainer__categories" >
+                        <CategorySearchBar />
+                    </div>
                 </div>
-                <div className="searchContainer__categories" >
-                    <CategorySearchBar />
+                <h2 className="listHeader">Takeaways</h2>
+                <div className="buttonContainer">
+                    <div className="editSourcesCategoriesContainer">
+
+                        <button className="button" id="manageCategories" onClick={() => {
+                            // check if the user is authenticated
+                            const userId = localStorage.getItem("takeaways_user")
+                            if (userId) {
+
+                                toggleCategories()
+                            }
+                        }}>Manage Categories</button>
+                        <button className="button" id="manageSources" onClick={() => {
+                            // check if the user is authenticated
+                            const userId = localStorage.getItem("takeaways_user")
+                            if (userId) {
+
+                                toggleSources()
+                            }
+                        }}>Manage Sources</button>
+                    </div>
+                    <div className="addNewButtonContainer">
+                        <button className="button addNewButton" id="addNew" onClick={() => {
+
+                            // check if the user is authenticated
+                            const userId = localStorage.getItem("takeaways_user")
+                            if (userId) {
+
+                                toggle()
+                            }
+                        }}>New Takeaway</button>
+                    </div>
                 </div>
-            </div>
-            <h2 className="listHeader">Takeaways</h2>
-            <div className="buttonContainer">
-                <div className="editSourcesCategoriesContainer">
+                <ul className="takeaways">
+                    {
+                        filterBarTakeaways.map(takeaway => {
 
-                    <button className="button" id="manageCategories" onClick={() => {
-                        // check if the user is authenticated
-                        const userId = localStorage.getItem("takeaways_user")
-                        if (userId) {
-
-                            toggleCategories()
-                        }
-                    }}>Manage Categories</button>
-                    <button className="button" id="manageSources" onClick={() => {
-                        // check if the user is authenticated
-                        const userId = localStorage.getItem("takeaways_user")
-                        if (userId) {
-
-                            toggleSources()
-                        }
-                    }}>Manage Sources</button>
-                </div>
-                <div className="addNewButtonContainer">
-                    <button className="button addNewButton" id="addNew" onClick={() => {
-
-                        // check if the user is authenticated
-                        const userId = localStorage.getItem("takeaways_user")
-                        if (userId) {
-
-                            toggle()
-                        }
-                    }}>New Takeaway</button>
-                </div>
-            </div>
-            <ul className="takeaways">
-                {
-                    filterBarTakeaways.map(takeaway => {
-
-                        const activeUserCategories = categories.filter((category) => category.userId === activeUser) || {}
-                        const matchingSource = sources.find(source => takeaway.sourceId === source.id) || {}
-                        const matchingType = types.find(type => type.id === matchingSource.typeId) || {}
-                        const matchingTakeawayCategories = takeawaysCategories.filter(takeawayCategory => takeawayCategory.takeawayId === takeaway.id) || []
-                        const relatedCategories = matchingTakeawayCategories.map((mtc) => activeUserCategories.find((cat) => cat.id === mtc.categoryId)) || []
-                        return <Takeaway
-                            key={takeaway.id}
-                            takeaway={takeaway}
-                            categories={relatedCategories}
-                            source={matchingSource}
-                            type={matchingType}
-                        />
-                    })
-                }
-            </ul>
-            <Modal className="formModal" isOpen={modal} toggle={toggle}>
-                <ModalHeader toggle={toggle}>
-                    Add New Takeaway
+                            const activeUserCategories = categories.filter((category) => category.userId === activeUser) || {}
+                            const matchingSource = sources.find(source => takeaway.sourceId === source.id) || {}
+                            const matchingType = types.find(type => type.id === matchingSource.typeId) || {}
+                            const matchingTakeawayCategories = takeawaysCategories.filter(takeawayCategory => takeawayCategory.takeawayId === takeaway.id) || []
+                            const relatedCategories = matchingTakeawayCategories.map((mtc) => activeUserCategories.find((cat) => cat.id === mtc.categoryId)) || []
+                            return <Takeaway
+                                key={takeaway.id}
+                                takeaway={takeaway}
+                                categories={relatedCategories}
+                                source={matchingSource}
+                                type={matchingType}
+                            />
+                        })
+                    }
+                </ul>
+                <Modal className="formModal" isOpen={modal} toggle={toggle}>
+                    <ModalHeader toggle={toggle}>
+                        Add New Takeaway
                 </ModalHeader>
-                <ModalBody>
-                    <AddTakeAwayForm toggler={toggle} />
-                </ModalBody>
-            </Modal>
-            <Modal className="formModal" isOpen={categoriesModal} toggle={toggleCategories}>
-                <ModalHeader toggle={toggleCategories}>
-                    Manage Categories
+                    <ModalBody>
+                        <AddTakeAwayForm toggler={toggle} />
+                    </ModalBody>
+                </Modal>
+                <Modal className="formModal" isOpen={categoriesModal} toggle={toggleCategories}>
+                    <ModalHeader toggle={toggleCategories}>
+                        Manage Categories
                 </ModalHeader>
-                <ModalBody>
-                    <EditCategoriesForm toggler={toggleCategories} />
-                </ModalBody>
-            </Modal>
-            <Modal className="formModal" isOpen={sourcesModal} toggle={toggleSources}>
-                <ModalHeader toggle={toggleSources}>
-                    Manage Sources
+                    <ModalBody>
+                        <EditCategoriesForm toggler={toggleCategories} />
+                    </ModalBody>
+                </Modal>
+                <Modal className="formModal" isOpen={sourcesModal} toggle={toggleSources}>
+                    <ModalHeader toggle={toggleSources}>
+                        Manage Sources
                 </ModalHeader>
-                <ModalBody>
-                    <EditSourcesForm toggler={toggleSources} />
-                </ModalBody>
-            </Modal>
-        </>
+                    <ModalBody>
+                        <EditSourcesForm toggler={toggleSources} />
+                    </ModalBody>
+                </Modal>
+            </>
 
-    )
+        )
+    }
 }
